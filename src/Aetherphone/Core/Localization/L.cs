@@ -233,6 +233,13 @@ internal static class L
         public static readonly LocString NoticeBadgeRevokedBodyOne = new("moderation.notice.badgeRevokedBodyOne", "The {0} badge was removed from your account and no longer shows next to your name. If you think this was a mistake, reach out to us on our Discord server.");
         public static readonly LocString NoticeBadgeRevokedBodyMany = new("moderation.notice.badgeRevokedBodyMany", "These badges were removed from your account: {0}. They no longer show next to your name. If you think this was a mistake, reach out to us on our Discord server.");
         public static readonly LocString NoticeBadgeRevokedBodyFallback = new("moderation.notice.badgeRevokedBodyFallback", "A badge was removed from your account. If you think this was a mistake, reach out to us on our Discord server.");
+        public static readonly LocString NoticeFrameTitle = new("moderation.notice.frameTitle", "New avatar frame");
+        public static readonly LocString NoticeFrameBodyOne = new("moderation.notice.frameBodyOne", "The Aetherphone team gave you the {0} frame. Wear it from Aether Coin, under Items.");
+        public static readonly LocString NoticeFrameBodyFallback = new("moderation.notice.frameBodyFallback", "The Aetherphone team gave you a new avatar frame. Wear it from Aether Coin, under Items.");
+        public static readonly LocString NoticeFrameRevokedTitle = new("moderation.notice.frameRevokedTitle", "Avatar frame removed");
+        public static readonly LocString NoticeFrameRevokedBodyOne = new("moderation.notice.frameRevokedBodyOne", "The {0} frame was removed from your account and no longer sits around your picture. If you think this was a mistake, reach out to us on our Discord server.");
+        public static readonly LocString NoticeFrameRevokedBodyMany = new("moderation.notice.frameRevokedBodyMany", "These frames were removed from your account: {0}. They no longer sit around your picture. If you think this was a mistake, reach out to us on our Discord server.");
+        public static readonly LocString NoticeFrameRevokedBodyFallback = new("moderation.notice.frameRevokedBodyFallback", "An avatar frame was removed from your account. If you think this was a mistake, reach out to us on our Discord server.");
     }
 
     internal static class Apps
@@ -1338,6 +1345,18 @@ internal static class L
 
     internal static class Changelog
     {
+        public static readonly LocString[] Release1003 =
+        {
+            new("changelog.r1003.0",
+                "The phone now tells you when an avatar frame is given to you or taken away, instead of the ring around your avatar changing in silence"),
+            new("changelog.r1003.1", "Two new frames in the Aether Coin shop"),
+            new("changelog.r1003.2",
+                "Added a terms of service and a privacy policy, both linked from the project page"),
+            new("changelog.r1003.4",
+                "Fixed the artist credit on three phone cases: Cosmic EX and Caduceus are Zivyl's work, and Runic is Remi's"),
+            new("changelog.r1003.3", "A few more changes specific to the Chinese game version"),
+        };
+
         public static readonly LocString[] Release1002 =
         {
             new("changelog.r1002.0", "A few changes specific to the Chinese game version"),
@@ -2412,6 +2431,7 @@ internal static class L
         public static readonly LocString RisingStonesSignIn = new("account.risingStonesSignIn", "Sign in with Rising Stones");
         public static readonly LocString RisingStonesUuidLabel = new("account.risingStonesUuidLabel", "Rising Stones UID");
         public static readonly LocString RisingStonesUuidHint = new("account.risingStonesUuidHint", "Your UID is the number shown on your Rising Stones profile page.");
+        public static readonly LocString RisingStonesThirdPartyWarning = new("account.risingStonesThirdPartyWarning", "Third-party tools break the FINAL FANTASY XIV user agreement. Using Aetherphone can put your game account at risk, and we cannot appeal a suspension.");
         public static readonly LocString RisingStonesVerifyTitle = new("account.risingStonesVerifyTitle", "Verify with Rising Stones");
         public static readonly LocString RisingStonesVerifyIntro = new("account.risingStonesVerifyIntro", "Add this code to your personal signature on Rising Stones. You can remove it afterwards.");
         public static readonly LocString RisingStonesStep2 = new("account.risingStonesStep2", "Open your Rising Stones profile settings");

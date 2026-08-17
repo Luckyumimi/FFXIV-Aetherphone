@@ -68,7 +68,7 @@ https://raw.githubusercontent.com/luckyumimi/MyDalamudPlugins/master/pluginmaste
 
 Tick **Enabled**, click **+**, then **Save and Close**. Open `/xlplugins` → **All Plugins**, search for **Aetherphone**, and install.
 
-Playing the Chinese game version? The phone detects it, hides the apps that are unavailable there (Music, AetherStream, News, Velvet), and signs you in through your Rising Stones (石之家) profile instead of the Lodestone.
+Playing the Chinese game version? The phone detects it, hides the apps that are unavailable there (Music, AetherStream, News), and signs you in through your Rising Stones (石之家) profile instead of the Lodestone.
 
 ## Commands
 
@@ -89,15 +89,21 @@ Questions, ideas, or just want to hang out with other players? Come say hi on Di
 
 ## Contributing
 
-Aetherphone is open source and contributions are welcome. Start with the developer documentation, then read the contribution guide.
+Aetherphone is open source and contributions are welcome. Start with the developer documentation, then read the contribution guide. Want to improve one of the nine translations instead? That needs no code, no build, and no git: the translator guide walks through it in a browser.
 
-→ [Developer documentation](docs/README.md) · [Contributing guide](CONTRIBUTING.md)
+→ [Developer documentation](docs/README.md) · [Contributing guide](CONTRIBUTING.md) · [Translator guide](docs/translating.md)
 
 ## More from me
 
 If you liked this plugin, take a look at my other Dalamud work. You might find something else there for you.
 
 → [XeldarAlz Dalamud Plugins](https://github.com/XeldarAlz/DalamudPlugins)
+
+## Legal
+
+Using the online features means accepting the terms of service. The privacy policy covers what the Aethernet service does with your data; the offline half of the plugin sends nothing anywhere.
+
+→ [Terms of Service](TERMS.md) · [Privacy Policy](PRIVACY.md)
 
 ## License
 
