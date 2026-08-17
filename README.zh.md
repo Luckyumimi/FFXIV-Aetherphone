@@ -39,6 +39,10 @@
   <img src="src/Aetherphone/Images/screenshots/Home.png" width="280" alt="Aetherphone in-game" />
 </p>
 
+## 中国服？
+
+在水獭代理此插件之前，不出意外我会一直对这个插件进行一些我需要的小更改
+
 ## 这是什么
 
 Aetherphone 是一款免费、开源的 Dalamud 插件，在 FINAL FANTASY XIV 中把一部真正的智能手机搬上屏幕：一台停靠、常驻显示的设备，配有主屏幕、通知、铃声以及可换主题的壁纸。应用背后运行着一个面向 Aetherphone 用户的社交网络，因此它们可以跨角色、跨会话工作，而不仅限于本地。
