@@ -3,6 +3,7 @@ using Aetherphone.Core.Shell;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Interface;
 using Dalamud.Interface.ManagedFontAtlas;
+using Dalamud.Interface.Utility;
 using Dalamud.Plugin;
 
 namespace Aetherphone.Core;
@@ -54,12 +55,8 @@ internal sealed class FontService : IDisposable
         0x25A0, 0x27BF,
     };
 
-    private static readonly ushort[] FullCjkBmpGlyphRanges =
-    {
-        0x3400, 0x4DBF,
-        0x4E00, 0x9FFF,
-        0xF900, 0xFAFF,
-    };
+    private const int AllFontsBuildVersion = 1;
+    private static readonly unsafe ushort[] FullCjkGlyphRanges = BuildFullCjkGlyphRanges();
 
     private const float TrackingThreshold = 1.20f;
     private const float TrackingRatio = -0.02f;
@@ -86,7 +83,8 @@ internal sealed class FontService : IDisposable
     private int pushDepth;
     private long ledgerDirtySince;
     private volatile bool ledgerRebuildInFlight;
-    private bool allFontsBuilt;
+    private volatile bool allFontsBuilt;
+    private int allFontsBuildState;
     private ushort[] allGlyphRanges;
     private int generation;
 
@@ -101,7 +99,8 @@ internal sealed class FontService : IDisposable
         this.zoom = zoom;
         this.phoneZoom = phoneZoom;
         renderScale = zoom * phoneZoom / MaxZoom;
-        allFontsBuilt = configuration.AllFontsBuilt;
+        allFontsBuilt = configuration.AllFontsBuilt &&
+            configuration.AllFontsBuiltVersion >= AllFontsBuildVersion;
         bucketCount = WeightFiles.Length * SizeMultipliers.Length;
         defaultBucket = BucketIndex(FontWeight.Regular, NearestSize(1f));
         ledger = new HashSet<ushort>[bucketCount];
@@ -144,18 +143,55 @@ internal sealed class FontService : IDisposable
 
     public void BuildAllFonts()
     {
-        if (allFontsBuilt)
+        if (allFontsBuilt || Interlocked.CompareExchange(ref allFontsBuildState, 1, 0) != 0)
         {
             return;
         }
 
-        allFontsBuilt = true;
-        configuration.AllFontsBuilt = true;
-        configuration.Save();
         ledgerDirtySince = 0;
         allGlyphRanges = ComposeAllGlyphRanges();
         loading.Show();
-        _ = atlas.BuildFontsAsync().ContinueWith(_ => Interlocked.Increment(ref generation), TaskScheduler.Default);
+        _ = BuildAllFontsAsync();
+    }
+
+    private async Task BuildAllFontsAsync()
+    {
+        try
+        {
+            await atlas.BuildFontsAsync().ConfigureAwait(false);
+            if (!Ready)
+            {
+                var failure = FirstFontLoadException() ??
+                    new InvalidOperationException("The full CJK font atlas did not produce ready handles.");
+                throw new InvalidOperationException("The full CJK font atlas build did not complete successfully.",
+                    failure);
+            }
+
+            allFontsBuilt = true;
+            configuration.AllFontsBuilt = true;
+            configuration.AllFontsBuiltVersion = AllFontsBuildVersion;
+            configuration.Save();
+            AepLog.Info("Full CJK font atlas build completed.");
+        }
+        catch (Exception exception)
+        {
+            allFontsBuilt = false;
+            AepLog.Error(exception, "Full CJK font atlas build failed.");
+            Interlocked.Exchange(ref allFontsBuildState, 2);
+            try
+            {
+                await atlas.BuildFontsAsync().ConfigureAwait(false);
+            }
+            catch (Exception restoreException)
+            {
+                AepLog.Error(restoreException, "Restoring the normal font atlas after a failed full build failed.");
+            }
+        }
+        finally
+        {
+            Interlocked.Exchange(ref allFontsBuildState, 0);
+            Interlocked.Increment(ref generation);
+        }
     }
 
     public void SetZoom(float value)
@@ -234,7 +270,7 @@ internal sealed class FontService : IDisposable
 
     public void NoticeText(ReadOnlySpan<char> text)
     {
-        if (text.IsEmpty || allFontsBuilt)
+        if (text.IsEmpty || allFontsBuilt || Volatile.Read(ref allFontsBuildState) != 0)
         {
             return;
         }
@@ -285,7 +321,7 @@ internal sealed class FontService : IDisposable
 
     private void MaybeRebuildLedger()
     {
-        if (ledgerDirtySince == 0 || ledgerRebuildInFlight)
+        if (ledgerDirtySince == 0 || ledgerRebuildInFlight || Volatile.Read(ref allFontsBuildState) != 0)
         {
             return;
         }
@@ -299,11 +335,24 @@ internal sealed class FontService : IDisposable
         ledgerRebuildInFlight = true;
         SnapshotBucketRanges();
         PersistLedger();
-        _ = atlas.BuildFontsAsync().ContinueWith(_ =>
+        _ = RebuildLedgerAsync();
+    }
+
+    private async Task RebuildLedgerAsync()
+    {
+        try
+        {
+            await atlas.BuildFontsAsync().ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            AepLog.Error(exception, "On-demand glyph font atlas build failed.");
+        }
+        finally
         {
             ledgerRebuildInFlight = false;
             Interlocked.Increment(ref generation);
-        }, TaskScheduler.Default);
+        }
     }
 
     private IFontHandle[,] Build()
@@ -334,7 +383,9 @@ internal sealed class FontService : IDisposable
         {
             e.OnPreBuild(tk =>
             {
-                var ranges = allFontsBuilt ? allGlyphRanges : bucketRanges[bucket] ?? glyphRanges;
+                var ranges = allFontsBuilt || Volatile.Read(ref allFontsBuildState) == 1
+                    ? allGlyphRanges
+                    : bucketRanges[bucket] ?? glyphRanges;
                 var config = new SafeFontConfig
                 {
                     SizePx = pixels, GlyphRanges = ranges, GlyphExtraSpacing = new Vector2(tracking, 0f),
@@ -374,13 +425,54 @@ internal sealed class FontService : IDisposable
     private static int BucketIndex(FontWeight weight, int sizeIndex) =>
         (int)weight * SizeMultipliers.Length + sizeIndex;
 
-    private ushort[] ComposeAllGlyphRanges()
+    private unsafe ushort[] ComposeAllGlyphRanges()
     {
-        var baseLength = glyphRanges.Length - 1;
-        var combined = new ushort[baseLength + FullCjkBmpGlyphRanges.Length + 1];
-        Array.Copy(glyphRanges, 0, combined, 0, baseLength);
-        Array.Copy(FullCjkBmpGlyphRanges, 0, combined, baseLength, FullCjkBmpGlyphRanges.Length);
-        return combined;
+        var builder = new ImFontGlyphRangesBuilderPtr(ImGuiNative.ImFontGlyphRangesBuilder());
+        try
+        {
+            fixed (ushort* current = glyphRanges)
+            fixed (ushort* fullCjk = FullCjkGlyphRanges)
+            {
+                builder.AddRanges(current);
+                builder.AddRanges(fullCjk);
+            }
+
+            return builder.BuildRangesToArray();
+        }
+        finally
+        {
+            builder.Destroy();
+        }
+    }
+
+    private static unsafe ushort[] BuildFullCjkGlyphRanges()
+    {
+        var builder = new ImFontGlyphRangesBuilderPtr(ImGuiNative.ImFontGlyphRangesBuilder());
+        try
+        {
+            builder.AddRanges(ImGui.GetIO().Fonts.GetGlyphRangesChineseFull());
+            return builder.BuildRangesToArray();
+        }
+        finally
+        {
+            builder.Destroy();
+        }
+    }
+
+    private Exception? FirstFontLoadException()
+    {
+        for (var weightIndex = 0; weightIndex < handles.GetLength(0); weightIndex++)
+        {
+            for (var sizeIndex = 0; sizeIndex < handles.GetLength(1); sizeIndex++)
+            {
+                if (handles[weightIndex, sizeIndex].LoadException is { } exception)
+                {
+                    return exception;
+                }
+            }
+        }
+
+        return null;
     }
 
     private static int NearestSize(float scale)
