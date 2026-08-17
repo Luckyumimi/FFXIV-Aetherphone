@@ -720,6 +720,7 @@
   "settings.importSound": "PCからインポート",
   "settings.soundImportHint": "インポートしたファイルは下のリストに表示され、ここで設定した音量で再生されます。ゲーム本体の音量設定とは別です。",
   "settings.language": "言語",
+  "settings.buildAllFonts": "すべてのフォントを構築",
   "settings.about": "概要",
   "settings.plugin": "プラグイン",
   "settings.version": "バージョン",

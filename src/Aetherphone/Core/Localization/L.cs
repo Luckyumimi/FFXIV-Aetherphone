@@ -1301,6 +1301,7 @@ internal static class L
         public static readonly LocString ImportSound = new("settings.importSound", "Import from PC");
         public static readonly LocString SoundImportHint = new("settings.soundImportHint", "Imported files appear in the list below and play at the volume set here, separate from the game's own sound settings.");
         public static readonly LocString Language = new("settings.language", "Language");
+        public static readonly LocString BuildAllFonts = new("settings.buildAllFonts", "Build all fonts");
         public static readonly LocString About = new("settings.about", "About");
         public static readonly LocString Plugin = new("settings.plugin", "Plugin");
         public static readonly LocString Version = new("settings.version", "Version");

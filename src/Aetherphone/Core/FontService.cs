@@ -54,6 +54,13 @@ internal sealed class FontService : IDisposable
         0x25A0, 0x27BF,
     };
 
+    private static readonly ushort[] FullCjkBmpGlyphRanges =
+    {
+        0x3400, 0x4DBF,
+        0x4E00, 0x9FFF,
+        0xF900, 0xFAFF,
+    };
+
     private const float TrackingThreshold = 1.20f;
     private const float TrackingRatio = -0.02f;
     private const float MaxZoom = 1.5f;
@@ -79,6 +86,8 @@ internal sealed class FontService : IDisposable
     private int pushDepth;
     private long ledgerDirtySince;
     private volatile bool ledgerRebuildInFlight;
+    private bool allFontsBuilt;
+    private ushort[] allGlyphRanges;
     private int generation;
 
     public FontService(IDalamudPluginInterface pluginInterface, Configuration configuration, LoadingScreen loading,
@@ -92,6 +101,7 @@ internal sealed class FontService : IDisposable
         this.zoom = zoom;
         this.phoneZoom = phoneZoom;
         renderScale = zoom * phoneZoom / MaxZoom;
+        allFontsBuilt = configuration.AllFontsBuilt;
         bucketCount = WeightFiles.Length * SizeMultipliers.Length;
         defaultBucket = BucketIndex(FontWeight.Regular, NearestSize(1f));
         ledger = new HashSet<ushort>[bucketCount];
@@ -102,6 +112,7 @@ internal sealed class FontService : IDisposable
         }
 
         glyphRanges = ComposeRanges(Loc.Current);
+        allGlyphRanges = ComposeAllGlyphRanges();
         RebuildBaseCoverage();
         SeedLedgerFromConfig();
         SnapshotBucketRanges();
@@ -129,6 +140,22 @@ internal sealed class FontService : IDisposable
 
             return true;
         }
+    }
+
+    public void BuildAllFonts()
+    {
+        if (allFontsBuilt)
+        {
+            return;
+        }
+
+        allFontsBuilt = true;
+        configuration.AllFontsBuilt = true;
+        configuration.Save();
+        ledgerDirtySince = 0;
+        allGlyphRanges = ComposeAllGlyphRanges();
+        loading.Show();
+        _ = atlas.BuildFontsAsync().ContinueWith(_ => Interlocked.Increment(ref generation), TaskScheduler.Default);
     }
 
     public void SetZoom(float value)
@@ -170,6 +197,7 @@ internal sealed class FontService : IDisposable
         loading.Show();
         var previous = handles;
         glyphRanges = next;
+        allGlyphRanges = ComposeAllGlyphRanges();
         RebuildBaseCoverage();
         SnapshotBucketRanges();
         using (atlas.SuppressAutoRebuild())
@@ -206,7 +234,7 @@ internal sealed class FontService : IDisposable
 
     public void NoticeText(ReadOnlySpan<char> text)
     {
-        if (text.IsEmpty)
+        if (text.IsEmpty || allFontsBuilt)
         {
             return;
         }
@@ -306,7 +334,7 @@ internal sealed class FontService : IDisposable
         {
             e.OnPreBuild(tk =>
             {
-                var ranges = bucketRanges[bucket] ?? glyphRanges;
+                var ranges = allFontsBuilt ? allGlyphRanges : bucketRanges[bucket] ?? glyphRanges;
                 var config = new SafeFontConfig
                 {
                     SizePx = pixels, GlyphRanges = ranges, GlyphExtraSpacing = new Vector2(tracking, 0f),
@@ -345,6 +373,15 @@ internal sealed class FontService : IDisposable
 
     private static int BucketIndex(FontWeight weight, int sizeIndex) =>
         (int)weight * SizeMultipliers.Length + sizeIndex;
+
+    private ushort[] ComposeAllGlyphRanges()
+    {
+        var baseLength = glyphRanges.Length - 1;
+        var combined = new ushort[baseLength + FullCjkBmpGlyphRanges.Length + 1];
+        Array.Copy(glyphRanges, 0, combined, 0, baseLength);
+        Array.Copy(FullCjkBmpGlyphRanges, 0, combined, baseLength, FullCjkBmpGlyphRanges.Length);
+        return combined;
+    }
 
     private static int NearestSize(float scale)
     {

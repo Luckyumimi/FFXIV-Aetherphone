@@ -720,6 +720,7 @@
   "settings.importSound": "从电脑导入",
   "settings.soundImportHint": "导入的文件会出现在下方列表中，并以此处设置的音量播放，与游戏本身的声音设置无关。",
   "settings.language": "语言",
+  "settings.buildAllFonts": "构建所有字体",
   "settings.about": "关于",
   "settings.plugin": "插件",
   "settings.version": "版本",

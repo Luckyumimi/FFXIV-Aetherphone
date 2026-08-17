@@ -720,6 +720,7 @@
   "settings.importSound": "Import from PC",
   "settings.soundImportHint": "Imported files appear in the list below and play at the volume set here, separate from the game's own sound settings.",
   "settings.language": "Language",
+  "settings.buildAllFonts": "Build all fonts",
   "settings.about": "About",
   "settings.plugin": "Plugin",
   "settings.version": "Version",

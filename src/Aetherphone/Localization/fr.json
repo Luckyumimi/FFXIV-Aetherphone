@@ -720,6 +720,7 @@
   "settings.importSound": "Importer depuis le PC",
   "settings.soundImportHint": "Les fichiers importés apparaissent dans la liste ci-dessous et sont lus au volume défini ici, indépendamment des réglages audio du jeu.",
   "settings.language": "Langue",
+  "settings.buildAllFonts": "Construire toutes les polices",
   "settings.about": "À propos",
   "settings.plugin": "Extension",
   "settings.version": "Version",

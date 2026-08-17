@@ -720,6 +720,7 @@
   "settings.importSound": "Импортировать с ПК",
   "settings.soundImportHint": "Импортированные файлы появляются в списке ниже и воспроизводятся с заданной здесь громкостью, независимо от настроек звука игры.",
   "settings.language": "Язык",
+  "settings.buildAllFonts": "Построить все шрифты",
   "settings.about": "О программе",
   "settings.plugin": "Плагин",
   "settings.version": "Версия",

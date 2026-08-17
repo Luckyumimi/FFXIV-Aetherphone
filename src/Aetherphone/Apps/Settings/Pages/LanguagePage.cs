@@ -3,6 +3,7 @@ using Aetherphone.Core.Apps;
 using Aetherphone.Core.Localization;
 using Aetherphone.Windows.Components;
 
+using Dalamud.Bindings.ImGui;
 using Dalamud.Interface;
 
 namespace Aetherphone.Apps.Settings.Pages;
@@ -43,6 +44,18 @@ internal sealed class LanguagePage : ISettingsPage
             }
 
             card.End();
+
+            if (Loc.Current.Code == Languages.Chinese.Code)
+            {
+                ImGui.Dummy(new Vector2(0f, Metrics.Space.Md * UiScale.Current));
+                var fontCard = GroupCard.Begin(theme, 1);
+                if (SettingsRow.Action(fontCard.NextRow(), Loc.T(L.Settings.BuildAllFonts), theme.Accent, theme))
+                {
+                    Plugin.Fonts.BuildAllFonts();
+                }
+
+                fontCard.End();
+            }
         }
     }
 }
