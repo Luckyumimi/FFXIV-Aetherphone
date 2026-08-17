@@ -63,7 +63,7 @@ Aetherphone 是一款免费、开源的 Dalamud 插件，在 FINAL FANTASY XIV �
 在游戏中：`/xlsettings` → **Experimental** → 粘贴到 **Custom Plugin Repositories**：
 
 ```
-https://raw.githubusercontent.com/XeldarAlz/DalamudPlugins/main/repo.json
+https://raw.githubusercontent.com/luckyumimi/MyDalamudPlugins/master/pluginmaster.json
 ```
 
 勾选 **Enabled**，点击 **+**，然后点击 **Save and Close**。打开 `/xlplugins` → **All Plugins**，搜索 **Aetherphone** 并安装。
