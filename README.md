@@ -39,6 +39,10 @@
   <img src="src/Aetherphone/Images/screenshots/Home.png" width="280" alt="Aetherphone in-game" />
 </p>
 
+## 中国服？
+
+在水獭代理此插件之前，不出意外我会一直对这个插件进行一些我需要的小更改
+
 ## What it is
 
 Aetherphone is a free, open-source Dalamud plugin that puts a real smartphone on screen in FINAL FANTASY XIV: a docked, always-on device with a home screen, notifications, ringtones, and themeable wallpapers. Behind the apps runs its own social network for Aetherphone users, so they work across characters and sessions, not just locally.
