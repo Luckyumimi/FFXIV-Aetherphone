@@ -2128,7 +2128,7 @@
   "velvet.discoveryHeader": "发现",
   "velvet.discoverableHelp": "开启后，其他人可以在“发现”中找到你的个人资料。",
   "velvet.unavailableTitle": "Velvet不可用",
-  "velvet.unavailableBody": "Velvet是仅限成年人的空间，拉拉菲尔角色无法使用。如果你最近更换了种族，待Lodestone更新后即会解除。",
+  "velvet.unavailableBody": "当前角色暂时无法使用Velvet。如果你最近更换了角色，待Lodestone更新后即会解除。",
   "velvet.whoCanMessage": "谁可以给你发消息",
   "velvet.whoEveryone": "所有人",
   "velvet.whoFriends": "好友",

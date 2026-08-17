@@ -2128,7 +2128,7 @@
   "velvet.discoveryHeader": "Discovery",
   "velvet.discoverableHelp": "When on, your profile can be found by others in Discover.",
   "velvet.unavailableTitle": "Velvet is unavailable",
-  "velvet.unavailableBody": "Velvet is an adults only space and is not available on Lalafell characters. If you recently changed your race, this clears once the Lodestone reflects it.",
+  "velvet.unavailableBody": "Velvet is unavailable for this character right now. If you recently changed your character, this clears once the Lodestone reflects it.",
   "velvet.whoCanMessage": "Who can message you",
   "velvet.whoEveryone": "Everyone",
   "velvet.whoFriends": "Friends",
