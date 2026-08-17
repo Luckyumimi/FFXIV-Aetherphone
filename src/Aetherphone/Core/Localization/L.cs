@@ -3206,7 +3206,7 @@ internal static class L
         public static readonly LocString GateEnterAction = new("velvet.gateEnterAction", "Enter");
         public static readonly LocString UnavailableTitle = new("velvet.unavailableTitle", "Velvet is unavailable");
         public static readonly LocString UnavailableBody = new("velvet.unavailableBody",
-            "Velvet is unavailable for this character. If this keeps happening, check the Safety page for details.");
+            "Velvet is an adults only space and is not available on Lalafell characters. If you recently changed your race, this clears once the Lodestone reflects it.");
         public static readonly LocString DiscoveryHeader = new("velvet.discoveryHeader", "Discovery");
         public static readonly LocString DiscoverableHelp =
             new("velvet.discoverableHelp", "When on, your profile can be found by others in Discover.");
