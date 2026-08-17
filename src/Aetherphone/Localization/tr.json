@@ -2128,7 +2128,7 @@
   "velvet.discoveryHeader": "Keşif",
   "velvet.discoverableHelp": "Açıkken profilin Keşfet'te başkaları tarafından bulunabilir.",
   "velvet.unavailableTitle": "Velvet kullanılamıyor",
-  "velvet.unavailableBody": "Velvet şu anda bu karakter için kullanılamıyor. Yakın zamanda karakterini değiştirdiysen, Lodestone güncellenince bu kalkar.",
+  "velvet.unavailableBody": "Velvet bu karakter için kullanılamıyor. Sorun devam ederse moderasyon ve güvenlik sayfasına bakın.",
   "velvet.whoCanMessage": "Sana kim mesaj atabilir",
   "velvet.whoEveryone": "Herkes",
   "velvet.whoFriends": "Arkadaşlar",

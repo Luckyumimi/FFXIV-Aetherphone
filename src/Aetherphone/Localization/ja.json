@@ -2128,7 +2128,7 @@
   "velvet.discoveryHeader": "見つける",
   "velvet.discoverableHelp": "オンにすると、「見つける」で他の人があなたのプロフィールを見つけられます。",
   "velvet.unavailableTitle": "Velvetは利用できません",
-  "velvet.unavailableBody": "現在、このキャラクターではVelvetをご利用いただけません。最近キャラクターを変更した場合は、ロードストーンに反映され次第、この表示は解除されます。",
+  "velvet.unavailableBody": "Velvetはこのキャラクターでは利用できません。続く場合は「モデレーションと安全」ページを確認してください。",
   "velvet.whoCanMessage": "メッセージを送れる人",
   "velvet.whoEveryone": "全員",
   "velvet.whoFriends": "フレンド",

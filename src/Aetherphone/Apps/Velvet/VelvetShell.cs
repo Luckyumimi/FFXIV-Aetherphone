@@ -287,7 +287,7 @@ internal sealed partial class VelvetShell : IPhoneApp
         if (sinceHeartbeat >= HeartbeatSeconds)
         {
             sinceHeartbeat = 0f;
-            store.Heartbeat(SocialRegion.EffectiveCode(configuration, gameData), false);
+            store.Heartbeat(SocialRegion.EffectiveCode(configuration, gameData), isLalafell: false);
         }
     }
 
