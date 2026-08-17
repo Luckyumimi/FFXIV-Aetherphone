@@ -15,6 +15,11 @@ internal static class RegionSync
         }
 
         var region = SocialRegion.EffectiveCode(configuration, gameData);
+        if (gameData.IsChineseGameClient())
+        {
+            region = "JP";
+        }
+
         if (region.Length == 0 || string.Equals(session.CurrentUser?.Region, region, StringComparison.Ordinal))
         {
             return;
