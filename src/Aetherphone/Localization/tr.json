@@ -720,7 +720,6 @@
   "settings.importSound": "PC'den içe aktar",
   "settings.soundImportHint": "İçe aktarılan dosyalar aşağıdaki listede görünür ve buradaki ses düzeyiyle çalınır; oyunun kendi ses ayarlarından bağımsızdır.",
   "settings.language": "Dil",
-  "settings.buildAllFonts": "Tüm yazı tiplerini oluştur",
   "settings.about": "Hakkında",
   "settings.plugin": "Eklenti",
   "settings.version": "Sürüm",
