@@ -8,6 +8,7 @@ internal static class FilePicker
     private const string ImageExtensions = "{.png,.jpg,.jpeg,.bmp,.gif},.*";
     private const string AudioExtensions = "{.mp3,.wav},.*";
     private const string VideoExtensions = "{.mp4,.mkv,.webm,.mov,.avi,.flv,.m4v},.*";
+    private const string JsonExtensions = "{.json},.*";
     private static readonly FileDialogManager Manager = new();
 
     public static void Draw()
@@ -54,6 +55,12 @@ internal static class FilePicker
 
         Open(title, Loc.T(L.Common.FileKindVideo) + VideoExtensions,
             ExistingFolder(Environment.SpecialFolder.MyVideos), guarded);
+    }
+
+    public static void PickJson(string title, Action<string> onPicked)
+    {
+        var guarded = OnlyLocalFiles(onPicked);
+        Open(title, JsonExtensions, ExistingFolder(Environment.SpecialFolder.ApplicationData), guarded);
     }
 
     private static Action<string> OnlyLocalFiles(Action<string> onPicked) => path =>

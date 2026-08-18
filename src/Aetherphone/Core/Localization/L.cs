@@ -2474,6 +2474,17 @@ internal static class L
         public static readonly LocString AddAccountTakenBody = new("account.addAccountTakenBody", "{0} already has an account on this phone. To add another one, log in to that character in the game and sign in from there. It then stays in this list for every character.");
         public static readonly LocString FollowCharacter = new("account.followCharacter", "Follow current character");
         public static readonly LocString FollowCharacterHint = new("account.followCharacterHint", "On: the phone uses the account of whichever character you are playing. Off: the account you picked stays active on every character.");
+        public static readonly LocString ImportTitle = new("account.importTitle", "Import accounts");
+        public static readonly LocString ImportPickFile = new("account.importPickFile", "Choose config file");
+        public static readonly LocString ImportFileHint = new("account.importFileHint", "Point at the Aetherphone.json from the other game client. It lives in that client's XIVLauncher pluginConfigs folder.");
+        public static readonly LocString ImportUnreadable = new("account.importUnreadable", "That file could not be read as a config file.");
+        public static readonly LocString ImportBadFile = new("account.importBadFile", "That file has no importable accounts.");
+        public static readonly LocString ImportAccountsHeading = new("account.importAccountsHeading", "Accounts in this file");
+        public static readonly LocString ImportAction = new("account.importAction", "Import {0} accounts");
+        public static readonly LocString ImportConfirmTitle = new("account.importConfirmTitle", "Import accounts?");
+        public static readonly LocString ImportConfirmBody = new("account.importConfirmBody", "Add {0} accounts to this phone. An existing entry for the same character is replaced.");
+        public static readonly LocString ImportDoneTitle = new("account.importDoneTitle", "Accounts imported");
+        public static readonly LocString ImportDoneBody = new("account.importDoneBody", "{0} accounts were added. Switch to them from the Accounts list.");
         public static readonly LocString SwitchHint = new("account.switchHint", "Tap an account to use it right away. Apps, messages and your phone number follow the account you pick.");
         public static readonly LocString PlayingAs = new("account.playingAs", "Playing {0}, signed in as {1}");
         public static readonly LocString RemoveAccount = new("account.removeAccount", "Remove");

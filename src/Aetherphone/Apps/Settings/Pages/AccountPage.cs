@@ -55,6 +55,7 @@ internal sealed class AccountPage : ISettingsPage, IDisposable
     private readonly ISettingsPage profilePage;
     private readonly ISettingsPage encryptionPage;
     private readonly ISettingsPage coinPage;
+    private readonly ISettingsPage importPage;
     private readonly PhotoLibrary photoLibrary;
     private readonly ConfirmService confirm;
     private readonly WallpaperImageCache wallpaperImages;
@@ -72,7 +73,7 @@ internal sealed class AccountPage : ISettingsPage, IDisposable
         AccountStateService accountState, MediaClient media, GameData gameData, RemoteImageCache images,
         LodestoneService lodestone, ISettingsNavigator navigator, NamePage namePage, ISettingsPage profilePage,
         ISettingsPage encryptionPage, ISettingsPage coinPage, PhotoLibrary photoLibrary, ConfirmService confirm,
-        WallpaperImageCache wallpaperImages)
+        WallpaperImageCache wallpaperImages, ISettingsPage importPage)
     {
         this.configuration = configuration;
         this.session = session;
@@ -91,6 +92,7 @@ internal sealed class AccountPage : ISettingsPage, IDisposable
         this.photoLibrary = photoLibrary;
         this.confirm = confirm;
         this.wallpaperImages = wallpaperImages;
+        this.importPage = importPage;
         flow = new SignInFlow(session, auth,
             () => RegionSync.Push(session, account, configuration, gameData, cancellation.Token));
         patreonFlow = new PatreonLinkFlow(account, accountState.RefreshNow);
@@ -429,7 +431,7 @@ internal sealed class AccountPage : ISettingsPage, IDisposable
         {
             var canAdd = session.PlayingContentId != 0;
             ImGui.Dummy(new Vector2(0f, 10f * scale));
-            var actions = GroupCard.Begin(theme, canAdd ? 2 : 1);
+            var actions = GroupCard.Begin(theme, canAdd ? 3 : 2);
             if (canAdd && SettingsRow.Link(actions.NextRow(), FontAwesomeIcon.Plus, Tint, Loc.T(L.Account.AddAccount),
                     string.Empty, theme))
             {
@@ -438,6 +440,12 @@ internal sealed class AccountPage : ISettingsPage, IDisposable
 
             var followCharacter = SettingsRow.Bool(actions.NextRow(), Loc.T(L.Account.FollowCharacter),
                 session.FollowsCharacter, theme, null, Loc.T(L.Account.FollowCharacterHint));
+            if (SettingsRow.Link(actions.NextRow(), FontAwesomeIcon.FileImport, Tint, Loc.T(L.Account.ImportTitle),
+                    string.Empty, theme))
+            {
+                navigator.Open(importPage);
+            }
+
             actions.End();
             if (followCharacter != session.FollowsCharacter)
             {
