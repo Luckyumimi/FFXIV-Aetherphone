@@ -29,7 +29,6 @@ namespace Aetherphone.Apps.Velvet;
 internal sealed partial class VelvetShell : IPhoneApp
 {
     private const float HeartbeatSeconds = 45f;
-    private const string VelvetRegionCode = "JP";
 
     private readonly VelvetStore store;
     private readonly FailureSlot discoverFailure = new();
@@ -289,7 +288,7 @@ internal sealed partial class VelvetShell : IPhoneApp
         if (sinceHeartbeat >= HeartbeatSeconds)
         {
             sinceHeartbeat = 0f;
-            store.Heartbeat(VelvetRegionCode, isLalafell: false);
+            store.Heartbeat(SocialRegion.EffectiveCode(configuration, gameData), isLalafell: false);
         }
     }
 
