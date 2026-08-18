@@ -74,7 +74,7 @@ https://raw.githubusercontent.com/luckyumimi/MyDalamudPlugins/master/pluginmaste
 
 Tick **Enabled**, click **+**, then **Save and Close**. Open `/xlplugins` → **All Plugins**, search for **Aetherphone**, and install.
 
-Playing the Chinese game version? The phone detects it, hides the apps that are unavailable there (Music, AetherStream, News), and signs you in through your Rising Stones (石之家) profile instead of the Lodestone.
+Playing the Chinese game version? The phone signs you in through your Rising Stones (石之家) profile instead of the Lodestone, and every app is available there.
 
 ## Commands
 
