@@ -39,9 +39,11 @@
   <img src="src/Aetherphone/Images/screenshots/Home.png" width="280" alt="Aetherphone in-game" />
 </p>
 
-## 中国服？
+## 增加功能
 
-在水獭代理此插件之前，不出意外我会一直对这个插件进行一些我需要的小更改
+可以在全球服务器的《最终幻想14》上注册Aethernet账户，并将其导入国服使用，不受上游对于国服的种种限制
+
+同时，添加了一些我自己需要的一些小小更改
 
 ## What it is
 
