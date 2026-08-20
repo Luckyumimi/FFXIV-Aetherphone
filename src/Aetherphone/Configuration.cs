@@ -211,6 +211,7 @@ internal sealed class Configuration : IPluginConfiguration, IHomeConfiguration, 
     public const int VelvetGateVersion = 1;
     public const int VelvetOnboardVersion = 2;
     public bool VelvetAcknowledgedGate { get; set; }
+    public bool VelvetLalafellNoticeDismissed { get; set; }
     public bool VelvetOnboarded { get; set; }
     public int VelvetOnboardedVersion { get; set; }
     public int VelvetAcknowledgedGateVersion { get; set; }

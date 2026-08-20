@@ -8,7 +8,11 @@ namespace Aetherphone.Apps.Velvet;
 
 internal sealed partial class VelvetShell
 {
+    private const float LalafellNoticeSeconds = 20f;
     private bool gateBusy;
+    private float lalafellNoticeElapsed;
+    private bool lalafellNoticeAcknowledged;
+    private bool lalafellNoticeNoMore;
 
     private void GateMenus()
     {
@@ -63,6 +67,58 @@ internal sealed partial class VelvetShell
         store.AcceptGate(Configuration.VelvetGateVersion, _ => gateBusy = false);
         store.EnsureMe();
         stories.RefreshTray();
+    }
+
+    private void DrawLalafellNotice(Rect area)
+    {
+        var scale = UiScale.Current;
+        var screen = SceneChrome.ScreenFrom(area, theme, scale);
+        ui.Backdrop(screen);
+        var drawList = ImGui.GetWindowDrawList();
+        VelvetArt.Bloom(drawList, screen, theme.ScreenRounding * scale, 1.15f);
+
+        var textWidth = MathF.Min(area.Width - 48f * scale, 340f * scale);
+        var notice = Loc.T(L.Velvet.LalafellNotice);
+        var textScale = Typography.FitScale(notice, textWidth, TextStyles.Title3.Scale, 0.70f, TextStyles.Title3.Weight);
+        var noticeCenter = new Vector2(area.Center.X, area.Min.Y + area.Height * 0.32f);
+        Typography.DrawCentered(drawList, noticeCenter, notice, VelvetTheme.TitleInk, textScale, TextStyles.Title3.Weight);
+
+        lalafellNoticeElapsed += ImGui.GetIO().DeltaTime;
+        var remaining = MathF.Max(0f, LalafellNoticeSeconds - lalafellNoticeElapsed);
+        var ready = remaining <= 0f;
+
+        var buttonWidth = MathF.Min(area.Width - 48f * scale, 300f * scale);
+        var buttonHeight = 46f * scale;
+        var buttonMin = new Vector2(area.Center.X - buttonWidth * 0.5f, area.Max.Y - buttonHeight * 2f - 30f * scale);
+        var buttonRect = new Rect(buttonMin, new Vector2(buttonMin.X + buttonWidth, buttonMin.Y + buttonHeight));
+        if (ui.PillButton(buttonRect, ready ? Loc.T(L.Velvet.LalafellAcknowledge)
+                : Loc.T(L.Velvet.LalafellWait, MathF.Ceiling(remaining).ToString(Loc.Culture)), ready) && ready)
+        {
+            if (lalafellNoticeNoMore)
+            {
+                configuration.VelvetLalafellNoticeDismissed = true;
+                configuration.Save();
+            }
+
+            lalafellNoticeAcknowledged = true;
+        }
+
+        var labelText = Loc.T(L.Velvet.LalafellNoMore);
+        var labelSize = Typography.Measure(labelText, TextStyles.Footnote);
+        var rowWidth = labelSize.X + 12f * scale + Metrics.Size.ToggleWidth * scale;
+        var rowY = buttonRect.Max.Y + 14f * scale;
+        var rowLeft = area.Center.X - rowWidth * 0.5f;
+        Typography.Draw(new Vector2(rowLeft, rowY + Metrics.Size.ToggleHeight * scale * 0.5f - labelSize.Y * 0.5f),
+            labelText, VelvetTheme.BodyInk, TextStyles.Footnote);
+        var toggleRect = new Rect(
+            new Vector2(rowLeft + labelSize.X + 12f * scale, rowY),
+            new Vector2(rowLeft + labelSize.X + 12f * scale + Metrics.Size.ToggleWidth * scale,
+                rowY + Metrics.Size.ToggleHeight * scale));
+        var noMore = Toggle.Draw("velvet.lalafellNoMore", toggleRect, lalafellNoticeNoMore, theme);
+        if (noMore != lalafellNoticeNoMore)
+        {
+            lalafellNoticeNoMore = noMore;
+        }
     }
 
     private VelvetTagCategory[]? orphanUnionSource;

@@ -159,6 +159,9 @@ internal sealed partial class VelvetShell : IPhoneApp
         router.Reset();
         activeTab = VelvetPage.Discover;
         messagesTab = VelvetMessagesTab.Chats;
+        lalafellNoticeAcknowledged = configuration.VelvetLalafellNoticeDismissed;
+        lalafellNoticeElapsed = 0f;
+        lalafellNoticeNoMore = false;
         store.InvalidateLists();
         if (GateAccepted && store.IsSignedIn)
         {
@@ -223,6 +226,13 @@ internal sealed partial class VelvetShell : IPhoneApp
             var reason = store.RegionBlocked ? L.Velvet.UnavailableRegionBody : L.Velvet.UnavailableBody;
             EmptyState.Draw(context.Content, ui, FontAwesomeIcon.Ban, Loc.T(L.Velvet.UnavailableTitle),
                 Loc.T(reason));
+            return;
+        }
+
+        if (!lalafellNoticeAcknowledged)
+        {
+            TourHolds.Hold(Id);
+            DrawLalafellNotice(context.Content);
             return;
         }
 

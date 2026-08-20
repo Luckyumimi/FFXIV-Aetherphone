@@ -3274,6 +3274,10 @@ internal static class L
         public static readonly LocString GateConsent =
             new("velvet.gateConsent", "By entering you confirm you are 18 or older. Be kind, be discreet.");
         public static readonly LocString GateEnterAction = new("velvet.gateEnterAction", "Enter");
+        public static readonly LocString LalafellNotice = new("velvet.lalafellNotice", "Posting lalafell or cat pictures in Velvet is a curse on your family.");
+        public static readonly LocString LalafellAcknowledge = new("velvet.lalafellAcknowledge", "I understand");
+        public static readonly LocString LalafellWait = new("velvet.lalafellWait", "Wait {0}s");
+        public static readonly LocString LalafellNoMore = new("velvet.lalafellNoMore", "Don't show this again");
         public static readonly LocString UnavailableTitle = new("velvet.unavailableTitle", "Velvet is unavailable");
         public static readonly LocString UnavailableBody = new("velvet.unavailableBody",
             "Velvet is an adults only space and is not available on Lalafell characters. If you recently changed your race, this clears once the Lodestone reflects it.");
