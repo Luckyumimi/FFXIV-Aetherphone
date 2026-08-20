@@ -79,9 +79,16 @@ internal sealed partial class VelvetShell
 
         var textWidth = MathF.Min(area.Width - 48f * scale, 340f * scale);
         var notice = Loc.T(L.Velvet.LalafellNotice);
-        var textScale = Typography.FitScale(notice, textWidth, TextStyles.Title3.Scale, 0.70f, TextStyles.Title3.Weight);
+        var textScale = Typography.FitScale(notice, textWidth, TextStyles.Title2.Scale, 0.70f, TextStyles.Title2.Weight);
         var noticeCenter = new Vector2(area.Center.X, area.Min.Y + area.Height * 0.32f);
         Typography.DrawCentered(drawList, noticeCenter, notice, VelvetTheme.TitleInk, textScale, TextStyles.Title3.Weight);
+
+        var source = Loc.T(L.Velvet.LalafellNoticeSource);
+        var noticeSize = Typography.Measure(notice, textScale, TextStyles.Title2.Weight);
+        var sourceSize = Typography.Measure(source, TextStyles.Subheadline);
+        var sourceCenter = new Vector2(area.Center.X,
+            noticeCenter.Y + noticeSize.Y * 0.5f + 8f * scale + sourceSize.Y * 0.5f);
+        Typography.DrawCentered(drawList, sourceCenter, source, VelvetTheme.MutedInk, TextStyles.Subheadline);
 
         lalafellNoticeElapsed += ImGui.GetIO().DeltaTime;
         var remaining = MathF.Max(0f, LalafellNoticeSeconds - lalafellNoticeElapsed);

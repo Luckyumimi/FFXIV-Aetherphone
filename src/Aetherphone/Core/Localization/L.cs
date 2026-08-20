@@ -3278,6 +3278,8 @@ internal static class L
         public static readonly LocString LalafellAcknowledge = new("velvet.lalafellAcknowledge", "I understand");
         public static readonly LocString LalafellWait = new("velvet.lalafellWait", "Wait {0}s");
         public static readonly LocString LalafellNoMore = new("velvet.lalafellNoMore", "Don't show this again");
+        public static readonly LocString LalafellNoticeSource = new("velvet.lalafellNoticeSource",
+            "This notice was added by the Luckyumimi CN unlocked edition.");
         public static readonly LocString UnavailableTitle = new("velvet.unavailableTitle", "Velvet is unavailable");
         public static readonly LocString UnavailableBody = new("velvet.unavailableBody",
             "Velvet is an adults only space and is not available on Lalafell characters. If you recently changed your race, this clears once the Lodestone reflects it.");

@@ -2139,6 +2139,7 @@
   "velvet.lalafellAcknowledge": "我知道了",
   "velvet.lalafellWait": "等待 {0}s",
   "velvet.lalafellNoMore": "不再提示",
+  "velvet.lalafellNoticeSource": "这是由Luckyumimi国服解限版添加的提示",
   "velvet.discoveryHeader": "发现",
   "velvet.discoverableHelp": "开启后，其他人可以在“发现”中找到你的个人资料。",
   "velvet.unavailableTitle": "Velvet不可用",

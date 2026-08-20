@@ -2139,6 +2139,7 @@
   "velvet.lalafellAcknowledge": "I understand",
   "velvet.lalafellWait": "Wait {0}s",
   "velvet.lalafellNoMore": "Don't show this again",
+  "velvet.lalafellNoticeSource": "This notice was added by the Luckyumimi CN unlocked edition.",
   "velvet.discoveryHeader": "Entdecken",
   "velvet.discoverableHelp": "Wenn aktiv, können andere dein Profil in Entdecken finden.",
   "velvet.unavailableTitle": "Velvet ist nicht verfügbar",
