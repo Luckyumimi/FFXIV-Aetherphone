@@ -51,6 +51,14 @@ internal sealed class VideoQueueRecord
 }
 
 [Serializable]
+internal sealed class VideoLocalFileMapRecord
+{
+    public string Key { get; set; } = "";
+    public string Path { get; set; } = "";
+    public long SizeBytes { get; set; }
+}
+
+[Serializable]
 internal sealed class Configuration : IPluginConfiguration, IHomeConfiguration, IControlConfiguration
 {
     public int Version { get; set; } = 1;
@@ -100,11 +108,16 @@ internal sealed class Configuration : IPluginConfiguration, IHomeConfiguration, 
     public float ScreenBrightness { get; set; } = 1f;
     public float PhoneScale { get; set; } = PhoneSizeCatalog.DefaultWidth / PhoneSizeCatalog.DesignWidth;
     public float PhoneWidth { get; set; }
+    public float LandscapePhoneWidth { get; set; }
     public bool CameraLandscape { get; set; }
     public bool CameraGrid { get; set; }
     public bool CameraFlash { get; set; } = true;
     public int PhotosSegment { get; set; }
     public string Language { get; set; } = string.Empty;
+    public string TranslationTargetLanguage { get; set; } = string.Empty;
+    public bool TranslationDisclosureSeen { get; set; }
+    public bool AutoTranslatePosts { get; set; }
+    public List<string> TranslatedConversations { get; set; } = new();
     public ThemeMode ThemeMode { get; set; } = ThemeMode.Dark;
     public string AccentName { get; set; } = "Violet";
     public string AccentCustomHex { get; set; } = string.Empty;
@@ -133,6 +146,7 @@ internal sealed class Configuration : IPluginConfiguration, IHomeConfiguration, 
     public bool VideoScreenVisible { get; set; } = true;
     public List<ScreenPositionPreset> ScreenPresets { get; set; } = new();
     public List<VideoQueueRecord> VideoQueue { get; set; } = new();
+    public List<VideoLocalFileMapRecord> VideoLocalFileMap { get; set; } = new();
     public bool GameSoundsCleared { get; set; }
     #if DEBUG
     public const string DefaultAethernetBaseUrl = "https://aethernet-dev-production.up.railway.app";
@@ -148,6 +162,8 @@ internal sealed class Configuration : IPluginConfiguration, IHomeConfiguration, 
     public bool HuntsAuthenticated { get; set; }
     public bool HuntsAppOpened { get; set; }
     public HuntsFilterSnapshot? HuntsFilterSettings { get; set; }
+    public Core.Strats.StratsSnapshot? StratsSettings { get; set; }
+    public Core.Mods.ModsSnapshot? ModsSettings { get; set; }
     public HuntsNotificationSnapshot? HuntsNotificationSettings { get; set; }
     public bool EncryptionRecoveryNudgeDismissed { get; set; }
     public Dictionary<string, int> KnownPeerKeyVersions { get; set; } = new();
@@ -173,6 +189,8 @@ internal sealed class Configuration : IPluginConfiguration, IHomeConfiguration, 
     public List<GameStatRecord> GameStats { get; set; } = new();
     public int DailyChallengeStreak { get; set; }
     public int DailyChallengeLastDay { get; set; }
+    public string WordRunBank { get; set; } = string.Empty;
+    public bool TetrisModern { get; set; }
     public string PendingCoinGameSession { get; set; } = string.Empty;
     public Dictionary<ulong, string> PendingCasinoSittings { get; set; } = new();
     public Dictionary<ulong, long> CasinoSittingSeenAtUnix { get; set; } = new();
@@ -252,6 +270,12 @@ internal sealed class Configuration : IPluginConfiguration, IHomeConfiguration, 
     public Dictionary<string, int> LinkpearlHistoryByChannel { get; set; } = new();
     public List<ulong> LinkpearlMigratedCharacters { get; set; } = new();
     public Dictionary<string, long> LinkpearlSeen { get; set; } = new();
+    public List<string> LinkpearlPinnedTells { get; set; } = new();
+    public List<string> LinkpearlMutedTells { get; set; } = new();
+    public bool LinkpearlPopoutTells { get; set; } = true;
+    public float LinkpearlPopoutOpacity { get; set; } = 0.96f;
+    public float LinkpearlPopoutTextScale { get; set; } = 1f;
+    public List<LinkpearlPopoutState> LinkpearlPopouts { get; set; } = new();
     public long DevChatLastSeenUnix { get; set; }
     public long AnnouncementsSeenUnix { get; set; }
     public long AnnouncementsNotifiedUnix { get; set; }

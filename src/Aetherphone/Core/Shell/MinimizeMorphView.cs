@@ -1,5 +1,4 @@
 using Aetherphone.Core.Animation;
-using Aetherphone.Core.Notifications;
 using Aetherphone.Core.Shell.Home;
 using Aetherphone.Core.Theme;
 using Aetherphone.Windows.Components;
@@ -9,41 +8,44 @@ namespace Aetherphone.Core.Shell;
 
 internal sealed class MinimizeMorphView
 {
+    private const float FaceFadeStart = 0.55f;
+    private const float FaceFadeEnd = 0.95f;
+    private const float RailFadeEnd = 0.55f;
+
     private readonly ThemeProvider themes;
     private readonly MinimizeTransition minimize;
-    private readonly MinimizedPhone minimizedView;
-    private readonly NotificationService notifications;
+    private readonly MinimizedPhone minimizedPhone;
     private readonly ShellScreenPainter painter;
+    private readonly Configuration configuration;
 
-    public MinimizeMorphView(ThemeProvider themes, MinimizeTransition minimize, MinimizedPhone minimizedView,
-        NotificationService notifications, ShellScreenPainter painter)
+    public MinimizeMorphView(ThemeProvider themes, MinimizeTransition minimize, MinimizedPhone minimizedPhone,
+        ShellScreenPainter painter, Configuration configuration)
     {
         this.themes = themes;
         this.minimize = minimize;
-        this.minimizedView = minimizedView;
-        this.notifications = notifications;
+        this.minimizedPhone = minimizedPhone;
         this.painter = painter;
+        this.configuration = configuration;
     }
 
     public bool Draw(Rect device, float delta)
     {
         if (minimize.MorphActive)
         {
-            DrawMorph(device);
+            DrawMorph(device, delta);
             return false;
         }
 
-        return DrawFace(device, delta);
+        return DrawResting(device, delta);
     }
 
-    private void DrawMorph(Rect device)
+    private void DrawMorph(Rect device, float delta)
     {
-        minimizedView.IsShowing = false;
         var scale = UiScale.Current;
         var theme = themes.Chrome;
         var puckScale = UiScale.Global;
         var startBody = DeviceChrome.BodyRect(device, theme);
-        var endBody = MinimizedRect(device, puckScale).Inset(puckScale);
+        var endBody = MinimizedRect(device, puckScale);
         var eased = minimize.EasedProgress;
         var body = new Rect(Vector2.Lerp(startBody.Min, endBody.Min, eased),
             Vector2.Lerp(startBody.Max, endBody.Max, eased));
@@ -51,17 +53,35 @@ internal sealed class MinimizeMorphView
 
         var shell = ImGui.GetWindowDrawList();
         Elevation.Squircle(shell, geometry.Body.Min, geometry.Body.Max, geometry.BodyRadius, scale, eased);
-        DeviceChrome.DrawShell(shell, geometry, scale, theme, 1f);
-        RevealMorphContent(DeviceChrome.Chassis(device, theme), theme, geometry, eased);
+        DeviceChrome.DrawShell(shell, geometry, scale, theme, 1f, true);
+        DrawRailButtons(shell, geometry, theme, scale, eased);
+        RevealMorphContent(DeviceChrome.Chassis(device, theme), theme, geometry, eased, device.IsLandscape());
 
-        var raw = Math.Clamp((eased - 0.5f) / 0.4f, 0f, 1f);
-        var glyphAlpha = raw * raw * (3f - 2f * raw);
-        MinimizedPhone.DrawFace(ImGui.GetForegroundDrawList(), geometry, theme, puckScale, glyphAlpha,
-            notifications.UnreadCount);
+        var faceAlpha = Easing.SmoothStep(Easing.Segment(eased, FaceFadeStart, FaceFadeEnd));
+        minimizedPhone.DrawFace(ImGui.GetForegroundDrawList(), geometry, theme, delta, false, faceAlpha);
+    }
+
+    private void DrawRailButtons(ImDrawListPtr dl, in ChassisGeometry geometry, PhoneTheme theme, float scale,
+        float eased)
+    {
+        var rail = theme.RailWidth * scale * (1f - Easing.Segment(eased, 0f, RailFadeEnd));
+        if (rail < 0.5f || geometry.Body.IsLandscape())
+        {
+            return;
+        }
+
+        var body = geometry.Body;
+        var window = new Rect(new Vector2(body.Min.X - rail, body.Min.Y), new Vector2(body.Max.X + rail, body.Max.Y));
+        var sideButton = DeviceChrome.SideButtonRect(window, geometry, out var sideButtonSide);
+        HardwareButton.Draw(dl, sideButton, theme, sideButtonSide, false, 0f, 0f);
+        var muteButton = DeviceChrome.MuteButtonRect(window, geometry, out var muteSide);
+        HardwareButton.Draw(dl, muteButton, theme, muteSide, false, 0f, configuration.DoNotDisturb ? 1f : 0f);
+        var lockButton = DeviceChrome.LockButtonRect(window, geometry, out var lockSide);
+        HardwareButton.Draw(dl, lockButton, theme, lockSide, false, 0f, configuration.LockPosition ? 1f : 0f);
     }
 
     private void RevealMorphContent(in ChassisGeometry device, PhoneTheme theme, in ChassisGeometry geometry,
-        float eased)
+        float eased, bool landscape)
     {
         var screen = geometry.Screen;
         if (screen.Height <= 0.5f)
@@ -77,6 +97,9 @@ internal sealed class MinimizeMorphView
         SceneCompositor.DrawClipped(screen, fullScreen, 0f, target =>
         {
             painter.PaintCurrent(target, fullRadius, theme, shrink);
+            StatusBar.Draw(target, theme, landscape);
+            HomeIndicator.Draw(ImGui.GetWindowDrawList(), HomeIndicator.Bounds(target, UiScale.Current), theme,
+                false);
             Squircle.Fill(ImGui.GetWindowDrawList(), screen.Min, screen.Max, rounding, veil);
         });
         DeviceChrome.MaskScreenCorners(ImGui.GetWindowDrawList(), geometry, theme, UiScale.Current);
@@ -94,11 +117,9 @@ internal sealed class MinimizeMorphView
         return new HomeMotion(zoom, pivot, 0f, false);
     }
 
-    private bool DrawFace(Rect device, float delta)
+    private bool DrawResting(Rect device, float delta)
     {
-        minimizedView.IsShowing = true;
-        var mini = MinimizedRect(device, UiScale.Global);
-        switch (minimizedView.Draw(mini, themes.Chrome, delta))
+        switch (minimizedPhone.Draw(device, themes.Chrome, delta))
         {
             case MinimizedAction.Expand:
                 minimize.BeginExpand();
@@ -110,6 +131,5 @@ internal sealed class MinimizeMorphView
         return false;
     }
 
-    private static Rect MinimizedRect(Rect device, float scale) =>
-        new(device.Min, device.Min + MinimizeTransition.MinimizedSize * scale);
+    private Rect MinimizedRect(Rect device, float scale) => new(device.Min, device.Min + minimizedPhone.Measure(scale));
 }

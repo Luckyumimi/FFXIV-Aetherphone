@@ -19,6 +19,7 @@ using Aetherphone.Core.Report;
 using Aetherphone.Core.Sharing;
 using Aetherphone.Core.Social;
 using Aetherphone.Core.Theme;
+using Aetherphone.Core.Translation;
 using Aetherphone.Core.Wallpapers;
 using Aetherphone.Windows;
 using Aetherphone.Windows.Components;
@@ -49,6 +50,7 @@ internal sealed partial class VelvetShell : IPhoneApp
     private readonly SocialActivityFeed activityFeed;
     private readonly Action loadOlderActivity;
     private readonly ConfirmService confirm;
+    private readonly TranslationService translation;
     private readonly ReportService report;
     private readonly ConductGateService conduct;
     private readonly WallpaperImageCache wallpaperImages;
@@ -80,8 +82,9 @@ internal sealed partial class VelvetShell : IPhoneApp
         NotificationService notifications, VelvetLauncher launcher, SocialLauncher socialLauncher, GameData gameData,
         SocialNotificationService social, KeyVault keyVault, ConversationKeyStore conversationKeys,
         PhoneVisibility visibility, RealtimeSignalBus realtimeSignals, WallpaperImageCache wallpaperImages,
-        ConfirmService confirm, ReportService report, ConductGateService conduct, AppInstaller installer)
+        ConfirmService confirm, TranslationService translation, ReportService report, ConductGateService conduct, AppInstaller installer)
     {
+        this.translation = translation;
         var velvetArchiveDir = new DirectoryInfo(Path.Combine(Plugin.PluginInterface.ConfigDirectory.FullName, "Velvet"));
         var notInterestedArchive = new VelvetNotInterestedArchive(velvetArchiveDir);
         store = new VelvetStore(session, net.Velvet, net.Account, net.Safety, net.Media, notifications, configuration,
@@ -89,7 +92,7 @@ internal sealed partial class VelvetShell : IPhoneApp
         commentMentions = new MentionAutocomplete(store.NewMentionSuggestions());
         stories = new StoryPresenter(session, net.Grams, net.Media, images, lodestone, VelvetArt.StoryRing, VelvetTheme.Palette,
             new StoryConfirmLabels(L.Velvet.DeleteConfirm, L.Velvet.DeleteCancel, L.Velvet.Saving), confirm,
-            realtimeSignals, "Velvet stories", StartStoryCompose, openProfile: OpenProfile);
+            translation, realtimeSignals, "Velvet stories", StartStoryCompose, openProfile: OpenProfile);
         this.launcher = launcher;
         this.socialLauncher = socialLauncher;
         this.lodestone = lodestone;

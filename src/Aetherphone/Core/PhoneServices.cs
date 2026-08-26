@@ -20,6 +20,7 @@ using Aetherphone.Core.Market;
 using Aetherphone.Core.Media;
 using Aetherphone.Core.Moderation;
 using Aetherphone.Core.Muster;
+using Aetherphone.Core.Translation;
 using Aetherphone.Core.Net;
 using Aetherphone.Core.News;
 using Aetherphone.Core.Notifications;
@@ -32,6 +33,8 @@ using Aetherphone.Core.Shortcuts;
 using Aetherphone.Core.Songs;
 using Aetherphone.Core.Telephony;
 using Aetherphone.Core.Theme;
+using Aetherphone.Core.Mods;
+using Aetherphone.Core.Strats;
 using Aetherphone.Core.Venues;
 using Aetherphone.Core.Video;
 using Aetherphone.Core.Wallpapers;
@@ -75,6 +78,7 @@ internal sealed class PhoneServices : IDisposable
     public required GameChat.ChatCapture ChatCapture { get; init; }
     public required GameChat.ChatArchive ChatArchive { get; init; }
     public required GameChat.TabStore ChatTabs { get; init; }
+    public required GameChat.TellPreferences TellPreferences { get; init; }
     public required GameChat.ChatInbox ChatInbox { get; init; }
     public required GameChat.ChatNotifier ChatNotifier { get; init; }
     public required HttpService Http { get; init; }
@@ -103,6 +107,7 @@ internal sealed class PhoneServices : IDisposable
     public required Casino.CasinoSpinStore CasinoSpin { get; init; }
     public required Casino.CasinoTurnNotifier CasinoTurns { get; init; }
     public required Casino.CasinoLauncher CasinoLauncher { get; init; }
+    public required GameRooms.GameRoomsStore GameRooms { get; init; }
     public required Video.AetherStreamLauncher AetherStreamLauncher { get; init; }
     public required PluginCatalog PluginCatalog { get; init; }
     public required ShortcutStore Shortcuts { get; init; }
@@ -119,6 +124,7 @@ internal sealed class PhoneServices : IDisposable
     public required EncryptionSetupLauncher EncryptionSetup { get; init; }
     public required MarketItemIndex MarketIndex { get; init; }
     public required MarketboardService Market { get; init; }
+    public required TranslationService Translation { get; init; }
     public required MarketLauncher MarketLauncher { get; init; }
     public required MarketAlertService MarketAlerts { get; init; }
     public required NewsService News { get; init; }
@@ -133,6 +139,9 @@ internal sealed class PhoneServices : IDisposable
     public required PlaybackHub Playback { get; init; }
     public required GameStatsStore GameStats { get; init; }
     public required VenuesService Venues { get; init; }
+    public required StratsManifestStore StratsManifest { get; init; }
+    public required StratsGuideStore StratsGuides { get; init; }
+    public required ModsHub Mods { get; init; }
     public required MusterStore Musters { get; init; }
     public required MusterLauncher MusterLauncher { get; init; }
 
@@ -205,13 +214,15 @@ internal sealed class PhoneServices : IDisposable
             new DirectoryInfo(Path.Combine(configDirectory.FullName, "GameChat")), configuration, chatLog,
             messageArchive, characterWatch);
         var chatTabs = new GameChat.TabStore(configuration, characterWatch);
-        var chatInbox = new GameChat.ChatInbox(chatLog, chatTabs, configuration);
-        var chatNotifier = new GameChat.ChatNotifier(chatLog, chatTabs, chatInbox, linkpearlNotificationGate,
-            notifications, linkpearlGate);
+        var tellPreferences = new GameChat.TellPreferences(configuration);
+        var chatInbox = new GameChat.ChatInbox(chatLog, chatTabs, tellPreferences, configuration);
+        var chatNotifier = new GameChat.ChatNotifier(chatLog, chatTabs, chatInbox, tellPreferences,
+            linkpearlNotificationGate, notifications, linkpearlGate);
         var cacheRoot = new DirectoryInfo(Path.Combine(configDirectory.FullName, "cache"));
         cacheRoot.Create();
         var mediaRoot = new DirectoryInfo(Path.Combine(cacheRoot.FullName, "media"));
-        var http = new HttpService();
+        var aethernetSession = new AethernetSession(configuration, framework);
+        var http = new HttpService(new AethernetClientIdentity(aethernetSession.BaseUrl, aethernetSession.ReportSourceStatus));
         var disk = new DiskCache(mediaRoot, 64L * 1024 * 1024);
         var media = new MediaCache(textures, disk);
         var imageRoot = new DirectoryInfo(Path.Combine(cacheRoot.FullName, "images"));
@@ -220,7 +231,6 @@ internal sealed class PhoneServices : IDisposable
         var pluginCatalog = new PluginCatalog(remoteImages, http, imageDisk);
         var lodestone = new LodestoneService(configuration, gameData, http, media, cacheRoot);
         var lookup = new LookupService(lodestone);
-        var aethernetSession = new AethernetSession(configuration, framework);
         var availability = new AppAvailability(http, aethernetSession, configuration, gameData);
         var aethernet = new AethernetApi(http, aethernetSession);
         var keyVault = new KeyVault(configuration, aethernetSession, aethernet.Keys);
@@ -242,6 +252,7 @@ internal sealed class PhoneServices : IDisposable
         var casinoSpin = new Casino.CasinoSpinStore(aethernetSession, casinoApi.Casino, coins);
         var peerKeys = new PeerKeyDirectory(configuration, aethernet.Keys);
         var conversationKeys = new ConversationKeyStore(aethernet.Keys, keyVault);
+        var translation = new TranslationService(aethernetSession, aethernet.Translation, configuration);
         var marketIndex = new MarketItemIndex(dataManager);
         var market = new MarketboardService(http);
         var marketLauncher = new MarketLauncher();
@@ -261,6 +272,11 @@ internal sealed class PhoneServices : IDisposable
         var playback = new PlaybackHub(radioPlayer, songPlayer, configuration);
         var gameStats = new GameStatsStore(configuration);
         var venues = new VenuesService(http, notifications, configuration, gameData);
+        var stratsRoot = new DirectoryInfo(Path.Combine(cacheRoot.FullName, "strats"));
+        var stratsDisk = new DiskCache(stratsRoot, 24L * 1024 * 1024);
+        var stratsManifest = new StratsManifestStore(http, stratsDisk);
+        var stratsGuides = new StratsGuideStore(http, stratsDisk);
+        var mods = new ModsHub(http);
         var collectionsRoot = new DirectoryInfo(Path.Combine(cacheRoot.FullName, "collections"));
         var collectionsDisk = new DiskCache(collectionsRoot, 32L * 1024 * 1024);
         var collections = new CollectionsCatalogService(http, collectionsDisk, dataManager, unlockState, framework);
@@ -301,6 +317,8 @@ internal sealed class PhoneServices : IDisposable
             realtimeSignals);
         var casinoTurns = new Casino.CasinoTurnNotifier(aethernetSession, casinoRooms, notifications,
             Apps.AppAccents.For("casino"));
+        var gameRooms = new GameRooms.GameRoomsStore(aethernetSession, aethernet.Games, visibility,
+            realtimeSignals);
         var musters = new MusterStore(aethernetSession, aethernet.Musters, notifications, configuration,
             visibility, realtimeSignals, installer.Gate(MusterStore.AppId));
         var yellowPages = new YellowPagesStore(aethernetSession, aethernet.Ads, aethernet.Media, configuration,
@@ -359,6 +377,7 @@ internal sealed class PhoneServices : IDisposable
             ChatCapture = chatCapture,
             ChatArchive = chatArchive,
             ChatTabs = chatTabs,
+            TellPreferences = tellPreferences,
             ChatInbox = chatInbox,
             ChatNotifier = chatNotifier,
             Http = http,
@@ -379,6 +398,7 @@ internal sealed class PhoneServices : IDisposable
             CasinoSpin = casinoSpin,
             CasinoTurns = casinoTurns,
             CasinoLauncher = new Casino.CasinoLauncher(),
+            GameRooms = gameRooms,
             AetherStreamLauncher = new Video.AetherStreamLauncher(),
             PluginCatalog = pluginCatalog,
             Shortcuts = new ShortcutStore(configuration, pluginCatalog),
@@ -395,6 +415,7 @@ internal sealed class PhoneServices : IDisposable
             EncryptionSetup = new EncryptionSetupLauncher(),
             MarketIndex = marketIndex,
             Market = market,
+            Translation = translation,
             MarketLauncher = marketLauncher,
             MarketAlerts = marketAlerts,
             News = news,
@@ -409,6 +430,9 @@ internal sealed class PhoneServices : IDisposable
             Playback = playback,
             GameStats = gameStats,
             Venues = venues,
+            StratsManifest = stratsManifest,
+            StratsGuides = stratsGuides,
+            Mods = mods,
             Musters = musters,
             MusterLauncher = new MusterLauncher(),
             RadioLauncher = new RadioLauncher(),
@@ -460,6 +484,9 @@ internal sealed class PhoneServices : IDisposable
         HousingReminders.Dispose();
         Housing.Dispose();
         Venues.Dispose();
+        StratsManifest.Dispose();
+        StratsGuides.Dispose();
+        Mods.Dispose();
         Musters.Dispose();
         YellowPages.Dispose();
         AdInquiries.Dispose();
@@ -476,6 +503,7 @@ internal sealed class PhoneServices : IDisposable
         Lodestone.Dispose();
         MarketAlerts.Dispose();
         Market.Dispose();
+        Translation.Dispose();
         News.Dispose();
         Notifications.Dispose();
         Sound.Dispose();
@@ -484,6 +512,7 @@ internal sealed class PhoneServices : IDisposable
         RemoteImages.Dispose();
         Windows.Components.UserName.Reset();
         Moderation.ModerationNoticeText.Reset();
+        GameRooms.Dispose();
         CasinoTurns.Dispose();
         CasinoTables.Dispose();
         CasinoRooms.Dispose();

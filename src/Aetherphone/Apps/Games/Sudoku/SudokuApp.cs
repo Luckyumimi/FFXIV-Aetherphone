@@ -41,7 +41,7 @@ internal sealed class SudokuApp : IMiniGame
     public string Id => GameId;
     public Vector4 Accent => AppAccents.For(Id);
     public string Title => Loc.T(L.Games.Sudoku);
-    public string Genre => Loc.T(L.Games.GenreLogic);
+    public GameGenre Genre => GameGenre.Brain;
 
     public void Open()
     {
@@ -201,12 +201,11 @@ internal sealed class SudokuApp : IMiniGame
 
     private void HandleKeyboard(float scale)
     {
-        if (!GameFocus.Active)
+        if (!GameInput.Claim())
         {
             return;
         }
 
-        ImGui.SetNextFrameWantCaptureKeyboard(true);
         for (var digit = 1; digit <= SudokuBoard.Size; digit++)
         {
             var offset = digit - 1;

@@ -26,8 +26,8 @@ internal sealed class HomeLayoutService
         "skywatcher", "collections", "inventory", "fishing",
         "clock", "notes", "calculator", "timers", "shortcuts",
         "wallet", "dailies", "calendar", "news",
-        "character", "notifications", "jobs",
-        "health",
+        "character", "notifications", "jobs", "strats",
+        "health", "mods",
     };
 
     private static readonly string[] MandatoryApps = { "appstore", "settings", "announcements" };

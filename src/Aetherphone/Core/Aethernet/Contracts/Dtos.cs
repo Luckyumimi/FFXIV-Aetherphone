@@ -76,7 +76,8 @@ internal sealed record UserDto(
     long Coins = 0,
     long CoinsEarnedToday = 0,
     long CoinsDailyCap = 0,
-    string FrameId = "") : IIdentified;
+    string FrameId = "",
+    string? BioLang = null) : IIdentified;
 
 internal sealed record UpdateProfileRequest(string? DisplayName, string? Handle, string? Bio, string? AvatarUrl = null);
 
@@ -217,7 +218,8 @@ internal sealed record PostDto(
     string[]? AuthorBadgeIds = null,
     string AuthorFrameId = "",
     bool Sensitive = false,
-    bool SensitiveLocked = false) : IIdentified;
+    bool SensitiveLocked = false,
+    string? Lang = null) : IIdentified;
 
 internal sealed record FeedPage(PostDto[] Items, string? NextCursor);
 
@@ -256,7 +258,8 @@ internal sealed record StoryDto(
     string ScanStatus = "clean",
     int AuthorBadges = 0,
     string[]? AuthorBadgeIds = null,
-    string AuthorFrameId = "") : IIdentified;
+    string AuthorFrameId = "",
+    string? Lang = null) : IIdentified;
 
 internal sealed record StoryRingDto(
     string AuthorId,
@@ -304,7 +307,8 @@ internal sealed record CommentDto(
     string AuthorFrameId = "",
     string? MediaUrl = null,
     int MediaWidth = 0,
-    int MediaHeight = 0) : IIdentified;
+    int MediaHeight = 0,
+    string? Lang = null) : IIdentified;
 
 internal sealed record CreateCommentRequest(
     string Text,
@@ -353,7 +357,8 @@ internal sealed record VelvetProfileDto(
     string[]? Kinks = null,
     string Region = "",
     string[]? BadgeIds = null,
-    string FrameId = "");
+    string FrameId = "",
+    string? IntroLang = null);
 
 internal sealed record UpdateVelvetProfileRequest(
     string? Intro,
@@ -396,7 +401,8 @@ internal sealed record VelvetPostDto(
     int OwnerBadges = 0,
     string[]? OwnerBadgeIds = null,
     string OwnerFrameId = "",
-    bool Sensitive = false) : IIdentified;
+    bool Sensitive = false,
+    string? Lang = null) : IIdentified;
 
 internal sealed record VelvetFeedPage(VelvetPostDto[] Items, string? NextCursor);
 
@@ -428,7 +434,8 @@ internal sealed record VelvetCommentDto(
     string ScanStatus = "clean",
     int AuthorBadges = 0,
     string[]? AuthorBadgeIds = null,
-    string AuthorFrameId = "") : IIdentified;
+    string AuthorFrameId = "",
+    string? Lang = null) : IIdentified;
 
 internal sealed record VelvetCommentPage(VelvetCommentDto[] Items, string? NextCursor);
 

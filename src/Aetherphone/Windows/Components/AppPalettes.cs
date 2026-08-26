@@ -60,6 +60,9 @@ internal static class AppPalettes
     public static readonly AppPalette Velvet = For("velvet");
     public static readonly AppPalette Message = For("message");
     public static readonly AppPalette Venues = For("venues");
+    public static readonly AppPalette Strats = For("strats");
+    public static readonly AppPalette Mods = For("mods");
+    public static readonly AppPalette Games = Neutral(AppAccents.For("games"));
     public static readonly AppPalette Housing = For("housing");
     public static readonly AppPalette Muster = For("muster");
     public static readonly AppPalette YellowPages = For("yellowpages");
@@ -129,6 +132,24 @@ internal static class AppPalettes
         CardFill = theme.GroupedCard,
         CardStroke = theme.Separator,
         FieldSurface = GlassField,
+        HoverTint = Palette.WithAlpha(theme.TextStrong, 0.06f),
+    };
+
+    public static AppPalette Linkpearl(PhoneTheme theme) => new()
+    {
+        Accent = theme.Accent,
+        TitleInk = theme.TextStrong,
+        BodyInk = theme.TextStrong,
+        MutedInk = theme.TextMuted,
+        HeaderInk = theme.TextMuted,
+        HeadingInk = theme.TextStrong,
+        BackdropTop = theme.AppBackground,
+        BackdropBottom = theme.AppBackground,
+        BloomTop = default,
+        BloomBottom = default,
+        CardFill = theme.GroupedCard,
+        CardStroke = theme.Separator,
+        FieldSurface = theme.GroupedCard,
         HoverTint = Palette.WithAlpha(theme.TextStrong, 0.06f),
     };
 

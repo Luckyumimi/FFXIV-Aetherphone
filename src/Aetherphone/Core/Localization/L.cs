@@ -260,6 +260,8 @@ internal static class L
         public static readonly LocString Photos = new("app.photos", "Photos");
         public static readonly LocString Skywatcher = new("app.skywatcher", "Skywatcher");
         public static readonly LocString Venues = new("app.venues", "Venues");
+        public static readonly LocString Strats = new("app.strats", "Strats");
+        public static readonly LocString Mods = new("app.mods", "Mods");
         public static readonly LocString Market = new("app.market", "Market");
         public static readonly LocString Wallet = new("app.wallet", "Wallet");
         public static readonly LocString Coin = new("app.coin", "Aether Coin");
@@ -435,6 +437,12 @@ internal static class L
         public static readonly LocString AnnouncementsSub = new("storeCopy.announcementsSub", "Word from the team");
         public static readonly LocString AnnouncementsBody = new("storeCopy.announcementsBody",
             "Release notes, downtime warnings and everything else the Aetherphone team wants you to know, delivered straight to your phone.");
+        public static readonly LocString StratsSub = new("storeCopy.stratsSub", "Raid cheatsheets, your spot marked");
+        public static readonly LocString StratsBody = new("storeCopy.stratsBody",
+            "Savage, Ultimate and Extreme strategies from WTFDIG. Pick a fight, a strat and your role to see exactly where to stand for every mechanic.");
+        public static readonly LocString ModsSub = new("storeCopy.modsSub", "Heliosphere mods, in your pocket");
+        public static readonly LocString ModsBody = new("storeCopy.modsBody",
+            "Browse the Heliosphere catalog, install and update mods through the Heliosphere plugin, and switch them on or off in Penumbra without leaving the game.");
         public static readonly LocString VenuesSub = new("storeCopy.venuesSub", "Nightlife, mapped");
         public static readonly LocString VenuesBody = new("storeCopy.venuesBody",
             "Find player-run venues, opening hours and directions without leaving the game.");
@@ -846,6 +854,137 @@ internal static class L
         public static readonly LocString NotAttuned = new("travel.notAttuned", "You haven't attuned to {0} yet");
         public static readonly LocString Blocked = new("travel.blocked", "You can't teleport right now");
         public static readonly LocString NoWorld = new("travel.noWorld", "You can't travel to {0} from here");
+    }
+
+    internal static class Strats
+    {
+        public static readonly LocString Loading = new("strats.loading", "Loading fights");
+        public static readonly LocString LoadFailed = new("strats.loadFailed", "The fight list did not load");
+        public static readonly LocString LoadFailedHint = new("strats.loadFailedHint", "Check your connection and try again.");
+        public static readonly LocString Retry = new("strats.retry", "Retry");
+        public static readonly LocString PoweredBy = new("strats.poweredBy", "Powered by {0}");
+        public static readonly LocString GuideLoading = new("strats.guideLoading", "Loading the guide");
+        public static readonly LocString GuideFailed = new("strats.guideFailed", "This guide did not load");
+        public static readonly LocString GuideFailedHint = new("strats.guideFailedHint", "Check your connection and try again.");
+        public static readonly LocString Strategy = new("strats.strategy", "Strategy");
+        public static readonly LocString Role = new("strats.role", "Your role");
+        public static readonly LocString Section = new("strats.section", "Section");
+        public static readonly LocString Orientation = new("strats.orientation", "Orientation");
+        public static readonly LocString Timeline = new("strats.timeline", "Timeline");
+        public static readonly LocString ShowTimeline = new("strats.showTimeline", "Show");
+        public static readonly LocString HideTimeline = new("strats.hideTimeline", "Hide");
+        public static readonly LocString StratDifferences = new("strats.stratDifferences", "Strat differences");
+        public static readonly LocString Board = new("strats.board", "Strategy board");
+        public static readonly LocString WhatHappens = new("strats.whatHappens", "What happens");
+        public static readonly LocString WhatToDo = new("strats.whatToDo", "What to do");
+        public static readonly LocString ForYou = new("strats.forYou", "Your spot");
+        public static readonly LocString OpenOnSite = new("strats.openOnSite", "View on wtfdig.info");
+        public static readonly LocString Resources = new("strats.resources", "More resources");
+        public static readonly LocString Sources = new("strats.sources", "Sources");
+        public static readonly LocString RoleTank = new("strats.roleTank", "Tank");
+        public static readonly LocString RoleHealer = new("strats.roleHealer", "Healer");
+        public static readonly LocString RoleMelee = new("strats.roleMelee", "Melee");
+        public static readonly LocString RoleRanged = new("strats.roleRanged", "Ranged");
+        public static readonly LocString BackToTop = new("strats.backToTop", "Back to top");
+    }
+
+    internal static class Mods
+    {
+        public static readonly LocString TabDiscover = new("mods.tabDiscover", "Discover");
+        public static readonly LocString TabInstalled = new("mods.tabInstalled", "Installed");
+        public static readonly LocString TabSettings = new("mods.tabSettings", "Settings");
+        public static readonly LocString SearchHint = new("mods.searchHint", "Search mods");
+        public static readonly LocString AllCategories = new("mods.allCategories", "All");
+        public static readonly LocString Sort = new("mods.sort", "Sort");
+        public static readonly LocString SortTrending = new("mods.sortTrending", "Trending");
+        public static readonly LocString SortPopular = new("mods.sortPopular", "Most downloaded");
+        public static readonly LocString SortNewest = new("mods.sortNewest", "Newest");
+        public static readonly LocString SortUpdated = new("mods.sortUpdated", "Recently updated");
+        public static readonly LocString Loading = new("mods.loading", "Loading mods");
+        public static readonly LocString LoadFailed = new("mods.loadFailed", "Mods did not load");
+        public static readonly LocString LoadFailedHint = new("mods.loadFailedHint", "Check your connection and try again.");
+        public static readonly LocString Retry = new("mods.retry", "Retry");
+        public static readonly LocString NoResults = new("mods.noResults", "No mods found");
+        public static readonly LocString NoResultsHint = new("mods.noResultsHint", "Try another search or category.");
+        public static readonly LocPlural ResultCount = new("mods.resultCount", "{0} mod", "{0} mods");
+        public static readonly LocString PoweredBy = new("mods.poweredBy", "Powered by Heliosphere");
+        public static readonly LocString By = new("mods.by", "by {0}");
+        public static readonly LocString BadgeNsfw = new("mods.badgeNsfw", "18+");
+        public static readonly LocString BadgeNsfl = new("mods.badgeNsfl", "NSFL");
+        public static readonly LocString BadgeContentWarning = new("mods.badgeContentWarning", "Content warning");
+        public static readonly LocString BadgeInstalled = new("mods.badgeInstalled", "Installed");
+        public static readonly LocString BadgeUpdate = new("mods.badgeUpdate", "Update");
+        public static readonly LocString DetailLoading = new("mods.detailLoading", "Loading mod");
+        public static readonly LocString DetailFailed = new("mods.detailFailed", "This mod did not load");
+        public static readonly LocString Downloads = new("mods.downloads", "Downloads");
+        public static readonly LocString Updated = new("mods.updated", "Updated");
+        public static readonly LocString InstallSize = new("mods.installSize", "Install size");
+        public static readonly LocString Variants = new("mods.variants", "Variants");
+        public static readonly LocString Install = new("mods.install", "Install");
+        public static readonly LocString UpdateTo = new("mods.updateTo", "Update to {0}");
+        public static readonly LocString InstalledVersion = new("mods.installedVersion", "Installed ({0})");
+        public static readonly LocString OpenInPenumbra = new("mods.openInPenumbra", "Open in Penumbra");
+        public static readonly LocString ViewOnSite = new("mods.viewOnSite", "View on heliosphere.app");
+        public static readonly LocString SetUpHeliosphere = new("mods.setUpHeliosphere", "Set up Heliosphere");
+        public static readonly LocString Changelog = new("mods.changelog", "What's new in {0}");
+        public static readonly LocString About = new("mods.about", "About");
+        public static readonly LocString Permissions = new("mods.permissions", "Permissions");
+        public static readonly LocString ContentWarning = new("mods.contentWarning", "Content warning");
+        public static readonly LocString Affects = new("mods.affects", "Affects");
+        public static readonly LocString AffectsMore = new("mods.affectsMore", "and {0} more");
+        public static readonly LocString TapToReveal = new("mods.tapToReveal", "Sensitive preview, tap to reveal");
+        public static readonly LocString InstallSent = new("mods.installSent", "Sent to Heliosphere. Watch its notification for progress.");
+        public static readonly LocString InstallPrompt = new("mods.installPrompt", "Heliosphere is asking you to confirm in its own window.");
+        public static readonly LocString InstallPluginMissing = new("mods.installPluginMissing", "The Heliosphere plugin is not running.");
+        public static readonly LocString InstallFailed = new("mods.installFailed", "Heliosphere refused the install request.");
+        public static readonly LocString Updates = new("mods.updates", "Updates");
+        public static readonly LocString InstalledSection = new("mods.installedSection", "Installed");
+        public static readonly LocString CheckingUpdates = new("mods.checkingUpdates", "Checking for updates");
+        public static readonly LocString UpToDate = new("mods.upToDate", "Everything is up to date");
+        public static readonly LocString NoneInstalled = new("mods.noneInstalled", "Nothing installed yet");
+        public static readonly LocString NoneInstalledHint = new("mods.noneInstalledHint", "Mods installed through Heliosphere show up here.");
+        public static readonly LocString BrowseMods = new("mods.browseMods", "Browse mods");
+        public static readonly LocString PenumbraMissing = new("mods.penumbraMissing", "Penumbra is not running");
+        public static readonly LocString PenumbraMissingHint = new("mods.penumbraMissingHint", "Penumbra loads mods and Heliosphere downloads them. Set both up to manage mods from your phone.");
+        public static readonly LocString LibraryFailed = new("mods.libraryFailed", "The mod list did not load");
+        public static readonly LocString Scanning = new("mods.scanning", "Reading your mods");
+        public static readonly LocString Collection = new("mods.collection", "Collection: {0}");
+        public static readonly LocString VersionChange = new("mods.versionChange", "{0} to {1}");
+        public static readonly LocString ToggleFailed = new("mods.toggleFailed", "Penumbra did not accept the change.");
+        public static readonly LocString ContentSection = new("mods.contentSection", "Content");
+        public static readonly LocString ShowNsfw = new("mods.showNsfw", "Show NSFW mods");
+        public static readonly LocString ShowNsfl = new("mods.showNsfl", "Show NSFL mods");
+        public static readonly LocString ShowContentWarnings = new("mods.showContentWarnings", "Show mods with content warnings");
+        public static readonly LocString HidePaid = new("mods.hidePaid", "Hide mods behind paywalls");
+        public static readonly LocString BlurSensitive = new("mods.blurSensitive", "Blur sensitive previews");
+        public static readonly LocString ContentHint = new("mods.contentHint", "Hidden mods never leave Heliosphere's servers. NSFL covers extreme content and needs NSFW on.");
+        public static readonly LocString NsfwConfirmTitle = new("mods.nsfwConfirmTitle", "Adults only");
+        public static readonly LocString NsfwConfirmBody = new("mods.nsfwConfirmBody", "NSFW mods are for adults. By turning this on you confirm you are 18 or older and allowed to view adult content where you live.");
+        public static readonly LocString NsfwConfirmYes = new("mods.nsfwConfirmYes", "I am 18 or older");
+        public static readonly LocString HeliosphereSection = new("mods.heliosphereSection", "Heliosphere");
+        public static readonly LocString PluginStatus = new("mods.pluginStatus", "Plugin");
+        public static readonly LocString StatusRunning = new("mods.statusRunning", "Running");
+        public static readonly LocString StatusNotLoaded = new("mods.statusNotLoaded", "Installed, not loaded");
+        public static readonly LocString StatusMissing = new("mods.statusMissing", "Not installed");
+        public static readonly LocString OneClickPassword = new("mods.oneClickPassword", "One-click password");
+        public static readonly LocString OneClickHint = new("mods.oneClickHint", "Paste the one-click password from Heliosphere's settings to install without a confirmation prompt. Leave it empty to confirm each install in Heliosphere.");
+        public static readonly LocString OneClickLink = new("mods.oneClickLink", "Open one-click settings");
+        public static readonly LocString PenumbraSection = new("mods.penumbraSection", "Penumbra");
+        public static readonly LocString ApiVersion = new("mods.apiVersion", "API version");
+        public static readonly LocString ModDirectory = new("mods.modDirectory", "Mod directory");
+        public static readonly LocString AboutSection = new("mods.aboutSection", "About");
+        public static readonly LocString OpenSite = new("mods.openSite", "Open heliosphere.app");
+        public static readonly LocString Terms = new("mods.terms", "Terms of service");
+        public static readonly LocString Support = new("mods.support", "Support forum");
+        public static readonly LocString AboutBody = new("mods.aboutBody", "Mods are hosted and installed by Heliosphere. Aetherphone browses the catalog and asks the Heliosphere plugin to install, so creators keep their download counts.");
+        public static readonly LocString SetupTitle = new("mods.setupTitle", "Set up mods");
+        public static readonly LocString SetupBody = new("mods.setupBody", "Two plugins do the heavy lifting: Penumbra loads mods into the game and Heliosphere downloads and updates them.");
+        public static readonly LocString SetupPenumbraDetail = new("mods.setupPenumbraDetail", "Mod loader, available in the plugin installer");
+        public static readonly LocString SetupHeliosphereDetail = new("mods.setupHeliosphereDetail", "Downloads and updates, from its own repository");
+        public static readonly LocString CopyRepository = new("mods.copyRepository", "Copy repository URL");
+        public static readonly LocString CopyRepositoryHint = new("mods.copyRepositoryHint", "Add the URL under Dalamud Settings, Experimental, Custom Plugin Repositories, then install Heliosphere from the plugin installer.");
+        public static readonly LocString OpenInstaller = new("mods.openInstaller", "Open plugin installer");
+        public static readonly LocString Ready = new("mods.ready", "Ready");
     }
 
     internal static class Venues
@@ -1554,10 +1693,109 @@ internal static class L
         public static readonly LocString CommandMarket = new("settings.commandMarket", "Open the market board, optionally searching an item");
         public static readonly LocString CommandReset = new("settings.commandReset", "Move the phone back to the center of the screen");
         public static readonly LocString CommandTest = new("settings.commandTest", "Send a sample notification");
+        public static readonly LocString TranslateInto = new("settings.translateInto", "Translate into");
+        public static readonly LocString TranslateSameAsPhone = new("settings.translateSameAsPhone", "Same as phone language");
+        public static readonly LocString TranslateIntoHint = new("settings.translateIntoHint", "Posts, comments, and messages written in other languages get a one-tap Translate link that renders them in this language.");
+        public static readonly LocString AutoTranslate = new("settings.autoTranslate", "Auto-translate posts and comments");
+        public static readonly LocString AutoTranslateHint = new("settings.autoTranslateHint", "Posts and comments written in other languages are translated as soon as they appear, without tapping Translate. Private messages keep their own per-chat switch.");
+    }
+
+    internal static class Translate
+    {
+        public static readonly LocString Action = new("translate.action", "Translate");
+        public static readonly LocString Pending = new("translate.pending", "Translating...");
+        public static readonly LocString ShowOriginal = new("translate.showOriginal", "Show original");
+        public static readonly LocString ShowTranslation = new("translate.showTranslation", "Show translation");
+        public static readonly LocString TranslatedFrom = new("translate.translatedFrom", "Translated from {0}");
+        public static readonly LocString Translated = new("translate.translated", "Translated");
+        public static readonly LocString SameLanguage = new("translate.sameLanguage", "Already in your language");
+        public static readonly LocString Failed = new("translate.failed", "Could not translate, tap to retry");
+        public static readonly LocString Quota = new("translate.quota", "Translation limit reached for today");
+        public static readonly LocString ChatToggle = new("translate.chatToggle", "Translate this chat");
+        public static readonly LocString ChatOn = new("translate.chatOn", "New messages in this chat are translated for you");
+        public static readonly LocString DisclosureTitle = new("translate.disclosureTitle", "Translate with Aethernet");
+        public static readonly LocString DisclosureBody = new("translate.disclosureBody", "Translations are made by Aethernet. Only the text you translate is sent. Private messages are never stored.");
+        public static readonly LocString DisclosureContinue = new("translate.disclosureContinue", "Continue");
     }
 
     internal static class Changelog
     {
+        public static readonly LocString[] Release1012 =
+        {
+            new("changelog.r1012.0",
+                "Added Mods, a Heliosphere browser: search the catalog by name or category, sort by trending, downloads or date, and read each mod's images, changelog and permissions without leaving the game"),
+            new("changelog.r1012.1",
+                "Installing and updating from Mods goes through the Heliosphere plugin, so creators keep their download counts and the phone never touches Penumbra's mod folder"),
+            new("changelog.r1012.2",
+                "The Installed tab in Mods lists your Heliosphere mods with their covers, flags the ones with an update, and switches them on or off in your collection"),
+            new("changelog.r1012.3",
+                "NSFW mods stay hidden until you turn them on in Mods settings and confirm you are 18 or older, and sensitive previews stay blurred until tapped"),
+            new("changelog.r1012.4",
+                "The minimized phone is a little phone again: a portrait puck with its case art, a big clock with the date, and music, calls and new notifications stacked underneath like a lock screen"),
+        };
+
+        public static readonly LocString[] Release1011 =
+        {
+            new("changelog.r1011.0",
+                "Added Strats, an app with raid cheatsheets: pick a fight and your role, and every mechanic comes with a diagram that marks your spot"),
+            new("changelog.r1011.1",
+                "Games has a new home: shelves by genre, Latest additions and Jump back in rails, a Play with friends card, and a search across every title"),
+            new("changelog.r1011.2",
+                "Added Uno to Games: an online room for up to six friends, joined with a six-character code"),
+            new("changelog.r1011.3",
+                "Added online Chess to Games: host or join a room by code, with Fischer clocks for both players"),
+            new("changelog.r1011.4",
+                "Added 8-Ball Pool to Games: the phone turns sideways for the table, and you shoot by dragging away from the cue ball"),
+            new("changelog.r1011.5",
+                "Linkpearl has been rebuilt around one chat list: search, filters, pinning and muting, and a new-chat sheet with Free Company, Linkshell, Party and Local presets"),
+            new("changelog.r1011.6",
+                "Linkpearl conversations can pop out into floating windows that keep chatting while the phone is closed or minimized, and new tells open one on their own when the phone is out of sight"),
+            new("changelog.r1011.7",
+                "The minimized phone is now a live capsule: it shows the clock, unread apps, the playing song and any active call, and swells into a card when a notification arrives"),
+            new("changelog.r1011.8",
+                "Chip rows that overflow the screen now show paging arrows on either end"),
+        };
+
+        public static readonly LocString[] Release1010 =
+        {
+            new("changelog.r1010.0",
+                "Posts and comments written in another language now carry a Translate link in Chirper, Aethergram and Velvet: one tap swaps in the translation, a footer names the language it came from, and Show original brings the text back"),
+            new("changelog.r1010.1",
+                "Chats in ChocoChat, Aethergram and Velvet can translate a single message from its menu, and a Translate this chat switch in the thread header translates every new message as it arrives"),
+            new("changelog.r1010.2",
+                "Settings > Language picks the language you translate into, defaulting to your phone language. Translations are made by Aethernet, only the text you translate is sent, and private messages are never stored"),
+            new("changelog.r1010.13",
+                "The Translate link also sits under profile bios and Velvet intros, Yellow Pages ads, Muster descriptions, Venues descriptions, and story captions"),
+            new("changelog.r1010.14",
+                "Settings > General gains Auto-translate posts and comments, which translates posts and comments in another language as soon as they appear, without tapping Translate; chats keep their own per-chat switch"),
+            new("changelog.r1010.3",
+                "A MogCast host can play a local file in a watch party without sharing its path: viewers are asked to locate their own copy, the phone checks it matches the host's, and playback runs in sync from there"),
+            new("changelog.r1010.4",
+                "Viewers in a MogCast watch party keep pace by speeding up or slowing down slightly instead of jumping on every host update, and only seek when they drift more than three seconds"),
+            new("changelog.r1010.5",
+                "When a MogCast video will not play, a card says so with Retry and, for the host, Skip: a stalled stream resumes from where it stopped, and the host sees how many viewers cannot play the current video"),
+            new("changelog.r1010.6",
+                "Added Skyfall to Games: tap the sky to send an interceptor that bursts and sweeps every meteor inside, and keep six settlements standing wave after wave"),
+            new("changelog.r1010.7",
+                "Added Invaders to Games: a rank marches down on your cannon and four bunkers, speeding up as it thins, with a saucer worth 300 crossing the top now and then"),
+            new("changelog.r1010.8",
+                "Added CapMan to Games: eat every dot in the maze, dodge four ghosts with habits of their own, and turn on them for a few seconds with a power pellet"),
+            new("changelog.r1010.9",
+                "Added Hop to Games: hop a critter across traffic and drifting pads to fill five dens before the timer runs out, with faster lanes every level"),
+            new("changelog.r1010.10",
+                "Added Squadron to Games: shoot ships that peel off their formation in dive runs, and free a fighter caught by a tractor beam to fly as a dual fighter"),
+            new("changelog.r1010.15",
+                "Added Doom to Games: the real engine runs on the phone in fullscreen landscape, played on the keyboard with WASD, the arrows or a drag to turn, Space, E and 1 to 7"),
+            new("changelog.r1010.16",
+                "Added Word Run to Games: guess five-letter words one after another until one beats you, faster solves pay more, with word banks in five languages plus names from the game"),
+            new("changelog.r1010.17",
+                "Tetris gains a Modern ruleset beside Classic, with SRS kicks, lock delay, T-spins, back-to-back and combo scoring, and its own best score"),
+            new("changelog.r1010.11",
+                "Tetris now steers with WASD as well as the arrows: A and D move, W rotates, S soft drops"),
+            new("changelog.r1010.12",
+                "Keys pressed in a game now stay in the game: the arrows in Tetris and Sudoku and WASD in the new games no longer walk your character"),
+        };
+
         public static readonly LocString[] Release1009 =
         {
             new("changelog.r1009.0",
@@ -2811,6 +3049,12 @@ internal static class L
         public static readonly LocString FailNetworkBody = new("account.fail.network.body", "We couldn't reach the Aethernet server. Check your connection, then try again.");
         public static readonly LocString FailAccessDeniedTitle = new("account.fail.accessDenied.title", "Sign-in cancelled");
         public static readonly LocString FailAccessDeniedBody = new("account.fail.accessDenied.body", "The request was declined on XIVAuth. Start again whenever you're ready.");
+        public static readonly LocString FailSourceBlockedTitle = new("account.fail.sourceBlocked.title", "Unofficial install blocked");
+        public static readonly LocString FailSourceBlockedBody = new("account.fail.sourceBlocked.body", "This copy of Aetherphone was installed from a repository that isn't allowed to use Aethernet. Reinstall it from the official repository to sign in again.");
+        public static readonly LocString SourceWarnedTitle = new("account.sourceWarned.title", "Unofficial install");
+        public static readonly LocString SourceWarnedBody = new("account.sourceWarned.body", "This copy of Aetherphone came from a repository we don't support, and Aethernet access from it may end without notice. Reinstall it from the official repository to keep everything working.");
+        public static readonly LocString SourceOfficialRepoLabel = new("account.sourceOfficial.label", "Official repository");
+        public static readonly LocString SourceCopyLink = new("account.sourceCopy.link", "Copy link");
         public static readonly LocString FailXivUnavailableTitle = new("account.fail.xivUnavailable.title", "XIVAuth unavailable");
         public static readonly LocString FailXivUnavailableBody = new("account.fail.xivUnavailable.body", "We couldn't reach XIVAuth. Wait a moment and try again, or verify with a Lodestone code instead.");
         public static readonly LocString FailXivCharacterTitle = new("account.fail.xivCharacter.title", "Character not verified");
@@ -3144,6 +3388,50 @@ internal static class L
         public static readonly LocString NewMessages = new("linkpearl.newMessages", "New messages");
         public static readonly LocString ClearHistory = new("linkpearl.clearHistory", "Clear history");
         public static readonly LocString ClearHistoryConfirm = new("linkpearl.clearHistoryConfirm", "Clear the stored history for this conversation? This only affects your phone.");
+        public static readonly LocString Mute = new("linkpearl.mute", "Mute");
+        public static readonly LocString Unmute = new("linkpearl.unmute", "Unmute");
+        public static readonly LocString More = new("linkpearl.more", "More");
+        public static readonly LocString NoMessagesYetPreview = new("linkpearl.noMessagesYetPreview", "No messages yet");
+        public static readonly LocString OpenInPhone = new("linkpearl.openInPhone", "Open in the phone");
+        public static readonly LocString SwitchConversation = new("linkpearl.switchConversation", "Switch conversation");
+        public static readonly LocString NewChat = new("linkpearl.newChat", "New chat");
+        public static readonly LocString StartChat = new("linkpearl.startChat", "Start a chat");
+        public static readonly LocString ChatSettings = new("linkpearl.chatSettings", "Chat settings");
+        public static readonly LocString MarkAllRead = new("linkpearl.markAllRead", "Mark all as read");
+        public static readonly LocString FilterAll = new("linkpearl.filterAll", "All");
+        public static readonly LocString FilterTells = new("linkpearl.filterTells", "Tells");
+        public static readonly LocString FilterTabs = new("linkpearl.filterTabs", "Tabs");
+        public static readonly LocString FilterUnread = new("linkpearl.filterUnread", "Unread");
+        public static readonly LocString Resume = new("linkpearl.resume", "Resume");
+        public static readonly LocString NotificationsPaused = new("linkpearl.notificationsPaused", "Notifications paused");
+        public static readonly LocString PinnedSection = new("linkpearl.pinnedSection", "Pinned");
+        public static readonly LocString NoFilterMatches = new("linkpearl.noFilterMatches", "Nothing here yet.");
+        public static readonly LocString PinLimit = new("linkpearl.pinLimit", "You can pin up to {0} tabs.");
+        public static readonly LocString TabLimit = new("linkpearl.tabLimit", "You can have up to {0} tabs.");
+        public static readonly LocString OpenPopout = new("linkpearl.openPopout", "Open as a pop-out");
+        public static readonly LocString ClosePopout = new("linkpearl.closePopout", "Close the pop-out");
+        public static readonly LocString PopoutLimit = new("linkpearl.popoutLimit", "You can have up to {0} pop-outs open.");
+        public static readonly LocString QuickTabs = new("linkpearl.quickTabs", "Quick tabs");
+        public static readonly LocString OrStartFresh = new("linkpearl.orStartFresh", "Or start fresh");
+        public static readonly LocString CustomTab = new("linkpearl.customTab", "Custom tab");
+        public static readonly LocString CustomTabHint = new("linkpearl.customTabHint", "Pick any channels and name it yourself");
+        public static readonly LocString SendTellHint = new("linkpearl.sendTellHint", "Find a friend or look someone up");
+        public static readonly LocString PresetAdded = new("linkpearl.presetAdded", "Added, tap to open");
+        public static readonly LocString PresetFreeCompanyHint = new("linkpearl.presetFreeCompanyHint", "Free Company and Novice Network");
+        public static readonly LocString PresetLinkshellsHint = new("linkpearl.presetLinkshellsHint", "Every linkshell you belong to");
+        public static readonly LocString PresetPartyHint = new("linkpearl.presetPartyHint", "Party and alliance");
+        public static readonly LocString PresetLocalHint = new("linkpearl.presetLocalHint", "Say, shout, yell and emotes");
+        public static readonly LocString PauseHint = new("linkpearl.pauseHint", "While paused, Linkpearl keeps counting unread messages but stays quiet.");
+        public static readonly LocString PopoutSection = new("linkpearl.popoutSection", "Pop-out chat");
+        public static readonly LocString PopoutTells = new("linkpearl.popoutTells", "Pop up new tells while the phone is closed");
+        public static readonly LocString PopoutOpacity = new("linkpearl.popoutOpacity", "Window opacity");
+        public static readonly LocString PopoutTextSize = new("linkpearl.popoutTextSize", "Text size");
+        public static readonly LocString PopoutHint = new("linkpearl.popoutHint", "Pop-outs are small chat windows that stay on screen while the phone is closed or minimized. Drag them anywhere and resize from the corner.");
+        public static readonly LocString CloseAllPopouts = new("linkpearl.closeAllPopouts", "Close all pop-outs ({0})");
+        public static readonly LocString StoreHistory = new("linkpearl.storeHistory", "Store history on this PC");
+        public static readonly LocString HistoryDefault = new("linkpearl.historyDefault", "Keep history by default");
+        public static readonly LocString ClearAllHistory = new("linkpearl.clearAllHistory", "Clear all history");
+        public static readonly LocString ClearAllHistoryConfirm = new("linkpearl.clearAllHistoryConfirm", "Delete every stored conversation on this PC? Your tabs and settings stay.");
     }
 
     internal static class Character
@@ -3820,6 +4108,18 @@ internal static class L
             "The host removed you from the stream.");
         public static readonly LocString WatchingKick = new("aetherstream.watchingKick", "Remove");
 
+        public static readonly LocString LocalWatchTitle = new("aetherstream.localWatchTitle",
+            "The host is playing a local file");
+        public static readonly LocString LocalWatchHint = new("aetherstream.localWatchHint",
+            "Pick your own copy of this file to watch along in sync.");
+        public static readonly LocString LocalWatchNoFileHint = new("aetherstream.localWatchNoFileHint",
+            "Don't have the file? Ask the host to send it to you, then locate it here.");
+        public static readonly LocString LocalWatchLocate = new("aetherstream.localWatchLocate", "Locate file");
+        public static readonly LocString LocalWatchMismatch = new("aetherstream.localWatchMismatch",
+            "That file does not match the host's copy.");
+        public static readonly LocString LocalWatchUseAnyway = new("aetherstream.localWatchUseAnyway",
+            "Use it anyway");
+
         public static readonly LocString StartParty = new("aetherstream.startParty", "Start a Party");
         public static readonly LocString EndParty = new("aetherstream.endParty", "End Party");
         public static readonly LocString WatchPartyHeader = new("aetherstream.watchPartyHeader", "Watch Party");
@@ -3875,6 +4175,20 @@ internal static class L
             "Could not play this link: {0}");
         public static readonly LocString ComponentsMissing = new("aetherstream.componentsMissing",
             "The video components are not installed yet.");
+        public static readonly LocString FailureTitle = new("aetherstream.failureTitle", "Can't play this");
+        public static readonly LocString FailureStalledTitle = new("aetherstream.failureStalledTitle",
+            "Playback stalled");
+        public static readonly LocString FailureStalledBody = new("aetherstream.failureStalledBody",
+            "The stream stopped twice in a row. Retry picks it up from where it stopped.");
+        public static readonly LocString FailureRetry = new("aetherstream.failureRetry", "Retry");
+        public static readonly LocString FailureSkip = new("aetherstream.failureSkip", "Skip");
+        public static readonly LocString FailureRetryingIn = new("aetherstream.failureRetryingIn",
+            "Retrying in {0}s");
+        public static readonly LocString FailureViewersTitle = new("aetherstream.failureViewersTitle",
+            "{0} of {1} watching can't play this");
+        public static readonly LocString FailureViewersHint = new("aetherstream.failureViewersHint",
+            "Skip to the next video, or queue a link that works for everyone.");
+        public static readonly LocString FailureDismiss = new("aetherstream.failureDismiss", "Dismiss");
     }
 
     internal static class Clock
@@ -4290,11 +4604,25 @@ internal static class L
         public static readonly LocString Easy = new("games.easy", "Easy");
         public static readonly LocString Medium = new("games.medium", "Medium");
         public static readonly LocString Hard = new("games.hard", "Hard");
-        public static readonly LocString GenreMatch = new("games.genreMatch", "Match 3");
         public static readonly LocString GenrePuzzle = new("games.genrePuzzle", "Puzzle");
-        public static readonly LocString GenreMemory = new("games.genreMemory", "Memory");
-        public static readonly LocString GenreLogic = new("games.genreLogic", "Logic");
         public static readonly LocString GenreArcade = new("games.genreArcade", "Arcade");
+        public static readonly LocString GenreAction = new("games.genreAction", "Action");
+        public static readonly LocString GenreBrain = new("games.genreBrain", "Brain");
+        public static readonly LocString GenreTabletop = new("games.genreTabletop", "Board & Cards");
+        public static readonly LocString GenreFriends = new("games.genreFriends", "With friends");
+        public static readonly LocString FilterAll = new("games.filterAll", "All");
+        public static readonly LocString FilterNew = new("games.filterNew", "New");
+        public static readonly LocString ShelfLatest = new("games.shelfLatest", "Latest additions");
+        public static readonly LocString ShelfRecent = new("games.shelfRecent", "Jump back in");
+        public static readonly LocString LibraryHeading = new("games.libraryHeading", "All games");
+        public static readonly LocString BadgeNew = new("games.badgeNew", "NEW");
+        public static readonly LocString SearchHint = new("games.searchHint", "Search games");
+        public static readonly LocString SearchEmpty = new("games.searchEmpty", "No games match");
+        public static readonly LocString SearchEmptyHint = new("games.searchEmptyHint", "Try another name, or clear the search.");
+        public static readonly LocString OnlineCardHint = new("games.onlineCardHint", "Uno, Chess and 8-Ball Pool. Host a room or join with a code.");
+        public static readonly LocString OnlineHostShort = new("games.onlineHostShort", "Host");
+        public static readonly LocPlural OnlineRoomsOpen = new("games.onlineRoomsOpen", "{0} room open", "{0} rooms open");
+        public static readonly LocPlural GameCount = new("games.gameCount", "{0} game", "{0} games");
         public static readonly LocString Breakout = new("games.breakout", "Breakout");
         public static readonly LocString Bubbles = new("games.bubbles", "Bubbles");
         public static readonly LocString WaterSort = new("games.waterSort", "Water Sort");
@@ -4314,14 +4642,12 @@ internal static class L
         public static readonly LocString Flows = new("games.flows", "Flows");
         public static readonly LocString Filled = new("games.filled", "Filled");
         public static readonly LocString Solitaire = new("games.solitaire", "Solitaire");
-        public static readonly LocString GenreCards = new("games.genreCards", "Cards");
         public static readonly LocString Simon = new("games.simon", "Simon");
         public static readonly LocString Watch = new("games.watch", "Watch");
         public static readonly LocString YourTurn = new("games.yourTurn", "Your Turn");
         public static readonly LocString Flap = new("games.flap", "Flap");
         public static readonly LocString TapToStart = new("games.tapToStart", "Tap to start");
         public static readonly LocString Reversi = new("games.reversi", "Reversi");
-        public static readonly LocString GenreStrategy = new("games.genreStrategy", "Strategy");
         public static readonly LocString You = new("games.you", "You");
         public static readonly LocString Cpu = new("games.cpu", "CPU");
         public static readonly LocString Lose = new("games.lose", "You Lose");
@@ -4360,6 +4686,137 @@ internal static class L
         public static readonly LocString CategoryMinions = new("games.categoryMinions", "Minions");
         public static readonly LocString CategoryActions = new("games.categoryActions", "Actions");
         public static readonly LocString CategoryEmotes = new("games.categoryEmotes", "Emotes");
+        public static readonly LocString Skyfall = new("games.skyfall", "Skyfall");
+        public static readonly LocString Wave = new("games.wave", "Wave");
+        public static readonly LocString Ammo = new("games.ammo", "Ammo");
+        public static readonly LocString WaveClear = new("games.waveClear", "Wave clear");
+        public static readonly LocString Invaders = new("games.invaders", "Invaders");
+        public static readonly LocString CapMan = new("games.capman", "CapMan");
+        public static readonly LocString Ready = new("games.ready", "Ready!");
+        public static readonly LocString Hop = new("games.hop", "Hop");
+        public static readonly LocString Dens = new("games.dens", "Dens");
+        public static readonly LocString Squadron = new("games.squadron", "Squadron");
+        public static readonly LocString Stage = new("games.stage", "Stage");
+        public static readonly LocString ChallengeStage = new("games.challengeStage", "Challenge stage!");
+        public static readonly LocString HitsOf = new("games.hitsOf", "{0} of {1} hit");
+        public static readonly LocString Doom = new("games.doom", "Doom");
+        public static readonly LocString DoomSetupTitle = new("games.doomSetupTitle", "Set up Doom");
+        public static readonly LocString DoomSetupBody = new("games.doomSetupBody",
+            "Doom needs its game data. The shareware episode is fetched from Debian's package archive into your Aetherphone folder; drop a full DOOM.WAD or DOOM2.WAD there to play those instead.");
+        public static readonly LocString DoomGameData = new("games.doomGameData", "Game data");
+        public static readonly LocString DoomGameDataDetail = new("games.doomGameDataDetail", "Knee-Deep in the Dead, the shareware episode");
+        public static readonly LocString DoomMusic = new("games.doomMusic", "Music");
+        public static readonly LocString DoomMusicDetail = new("games.doomMusicDetail", "General MIDI soundfont for the soundtrack");
+        public static readonly LocString DoomControls = new("games.doomControls", "WASD move, drag or arrows turn, Space fires, E uses, 1-7 weapons, Esc opens the menu");
+        public static readonly LocString DoomMenu = new("games.doomMenu", "Menu");
+        public static readonly LocString DoomFire = new("games.doomFire", "Fire");
+        public static readonly LocString DoomUse = new("games.doomUse", "Use");
+        public static readonly LocString DoomFailed = new("games.doomFailed", "Doom could not start");
+        public static readonly LocString DoomChooseGame = new("games.doomChooseGame", "Choose a game");
+        public static readonly LocString DoomShareware = new("games.doomShareware", "Doom (shareware episode)");
+        public static readonly LocString DoomFreedoom = new("games.doomFreedoom", "Freedoom");
+        public static readonly LocString DoomFreedoomDetail = new("games.doomFreedoomDetail", "Four free episodes and thirty-two more maps with their own levels and art");
+        public static readonly LocString WordRun = new("games.wordRun", "Word Run");
+        public static readonly LocString Words = new("games.words", "Words");
+        public static readonly LocString NotInWordList = new("games.notInWordList", "Not in the word list");
+        public static readonly LocString NotEnoughLetters = new("games.notEnoughLetters", "Not enough letters");
+        public static readonly LocString SolvedWord = new("games.solvedWord", "Solved!");
+        public static readonly LocString WordWas = new("games.wordWas", "The word was {0}");
+        public static readonly LocString EndRun = new("games.endRun", "End run");
+        public static readonly LocString Sure = new("games.sure", "Sure?");
+        public static readonly LocString WordBank = new("games.wordBank", "Word list");
+        public static readonly LocString Classic = new("games.classic", "Classic");
+        public static readonly LocString Modern = new("games.modern", "Modern");
+        public static readonly LocString TSpin = new("games.tSpin", "T-Spin");
+        public static readonly LocString TSpinMini = new("games.tSpinMini", "T-Spin Mini");
+        public static readonly LocString BackToBack = new("games.backToBack", "Back-to-Back");
+        public static readonly LocString OnlineTitle = new("games.onlineTitle", "Play with friends");
+        public static readonly LocString OnlineHint = new("games.onlineHint", "Host a room, share the code, play together");
+        public static readonly LocString OnlineEyebrow = new("games.onlineEyebrow", "ONLINE");
+        public static readonly LocString OnlineUno = new("games.onlineUno", "Uno");
+        public static readonly LocString OnlineSignIn = new("games.onlineSignIn", "Sign in to Aethernet in Settings to play with friends");
+        public static readonly LocString OnlineMyRooms = new("games.onlineMyRooms", "Your rooms");
+        public static readonly LocString OnlineNoRooms = new("games.onlineNoRooms", "No rooms yet. Host one or enter a friend's code.");
+        public static readonly LocString OnlineLoading = new("games.onlineLoading", "Looking for your rooms…");
+        public static readonly LocString OnlineHost = new("games.onlineHost", "Host a room");
+        public static readonly LocString OnlineHostHint = new("games.onlineHostHint", "Up to {0} players");
+        public static readonly LocString OnlineJoinHeading = new("games.onlineJoinHeading", "Join with a code");
+        public static readonly LocString OnlineJoinHint = new("games.onlineJoinHint", "Enter code");
+        public static readonly LocString OnlineJoin = new("games.onlineJoin", "Join");
+        public static readonly LocString OnlineHostedBy = new("games.onlineHostedBy", "Hosted by {0}");
+        public static readonly LocString OnlineSeats = new("games.onlineSeats", "{0}/{1} seats");
+        public static readonly LocString OnlinePhaseLobby = new("games.onlinePhaseLobby", "In the lobby");
+        public static readonly LocString OnlinePhasePlaying = new("games.onlinePhasePlaying", "Round in progress");
+        public static readonly LocString OnlinePhaseFinished = new("games.onlinePhaseFinished", "Round finished");
+        public static readonly LocString OnlineRoomCode = new("games.onlineRoomCode", "Room code");
+        public static readonly LocString OnlineCopyCode = new("games.onlineCopyCode", "Copy");
+        public static readonly LocString OnlineCodeCopied = new("games.onlineCodeCopied", "Copied");
+        public static readonly LocString OnlineStart = new("games.onlineStart", "Start round");
+        public static readonly LocString OnlineRematch = new("games.onlineRematch", "Play again");
+        public static readonly LocString OnlineNeedPlayers = new("games.onlineNeedPlayers", "Waiting for at least one more player");
+        public static readonly LocString OnlineWaitingHost = new("games.onlineWaitingHost", "Waiting for the host to start");
+        public static readonly LocString OnlineLeave = new("games.onlineLeave", "Leave room");
+        public static readonly LocString OnlineCloseRoom = new("games.onlineCloseRoom", "Close room");
+        public static readonly LocString OnlineKick = new("games.onlineKick", "Remove");
+        public static readonly LocString OnlineHostBadge = new("games.onlineHostBadge", "Host");
+        public static readonly LocString OnlineAway = new("games.onlineAway", "Away");
+        public static readonly LocString OnlineWins = new("games.onlineWins", "{0} wins");
+        public static readonly LocString OnlineYourTurn = new("games.onlineYourTurn", "Your turn");
+        public static readonly LocString OnlineTheirTurn = new("games.onlineTheirTurn", "{0}'s turn");
+        public static readonly LocString OnlineDraw = new("games.onlineDraw", "Draw");
+        public static readonly LocString OnlinePass = new("games.onlinePass", "Pass");
+        public static readonly LocString OnlineCards = new("games.onlineCards", "{0} cards");
+        public static readonly LocString OnlinePickColor = new("games.onlinePickColor", "Pick a color");
+        public static readonly LocString OnlineWinner = new("games.onlineWinner", "{0} wins the round!");
+        public static readonly LocString OnlineRoundVoid = new("games.onlineRoundVoid", "The round ended with nobody left");
+        public static readonly LocString OnlineDeck = new("games.onlineDeck", "Deck");
+        public static readonly LocString OnlineUnoCall = new("games.onlineUnoCall", "Uno!");
+        public static readonly LocString OnlineSkipped = new("games.onlineSkipped", "Skipped!");
+        public static readonly LocString OnlineReversed = new("games.onlineReversed", "Reverse!");
+        public static readonly LocString OnlineTimedOut = new("games.onlineTimedOut", "Timed out");
+        public static readonly LocString OnlineNoPlayable = new("games.onlineNoPlayable", "No playable card, tap the deck to draw");
+        public static readonly LocString OnlineReconnecting = new("games.onlineReconnecting", "Reconnecting…");
+        public static readonly LocString OnlineRoomEnded = new("games.onlineRoomEnded", "This room has ended");
+        public static readonly LocString OnlineKicked = new("games.onlineKicked", "The host removed you from this room");
+        public static readonly LocString OnlineRestarting = new("games.onlineRestarting", "The server is restarting, hold on…");
+        public static readonly LocString OnlineUnavailable = new("games.onlineUnavailable", "That did not go through, try again");
+        public static readonly LocString OnlineRoomFull = new("games.onlineRoomFull", "That room is full");
+        public static readonly LocString OnlineWrongCode = new("games.onlineWrongCode", "No open room has that code");
+        public static readonly LocString OnlineBanned = new("games.onlineBanned", "The host has closed this room to you");
+        public static readonly LocString OnlineBlocked = new("games.onlineBlocked", "You cannot share a room with someone in it");
+        public static readonly LocString OnlineAlreadyHosting = new("games.onlineAlreadyHosting", "You already have an open room");
+        public static readonly LocString OnlineCooldown = new("games.onlineCooldown", "Give it a moment and try again");
+        public static readonly LocString OnlineNotYourTurn = new("games.onlineNotYourTurn", "Not your turn");
+        public static readonly LocString OnlineStale = new("games.onlineStale", "The table moved on, catching up…");
+        public static readonly LocString OnlineChess = new("games.onlineChess", "Chess");
+        public static readonly LocString OnlineChessHostHint = new("games.onlineChessHostHint", "Head-to-head, 10 minutes on each clock");
+        public static readonly LocString OnlineResign = new("games.onlineResign", "Resign");
+        public static readonly LocString OnlineCheck = new("games.onlineCheck", "Check!");
+        public static readonly LocString OnlineYouPlayWhite = new("games.onlineYouPlayWhite", "You play White");
+        public static readonly LocString OnlineYouPlayBlack = new("games.onlineYouPlayBlack", "You play Black");
+        public static readonly LocString OnlineCheckmateWin = new("games.onlineCheckmateWin", "{0} wins by checkmate!");
+        public static readonly LocString OnlineTimeoutWin = new("games.onlineTimeoutWin", "{0} wins on time!");
+        public static readonly LocString OnlineResignWin = new("games.onlineResignWin", "{0} wins by resignation!");
+        public static readonly LocString OnlineDesertWin = new("games.onlineDesertWin", "{0} wins, the opponent left");
+        public static readonly LocString OnlineStalemateDraw = new("games.onlineStalemateDraw", "Draw by stalemate");
+        public static readonly LocString OnlineFiftyDraw = new("games.onlineFiftyDraw", "Draw by the fifty-move rule");
+        public static readonly LocString OnlineMaterialDraw = new("games.onlineMaterialDraw", "Draw, not enough material to mate");
+        public static readonly LocString OnlinePool = new("games.onlinePool", "8-Ball Pool");
+        public static readonly LocString OnlinePoolHostHint = new("games.onlinePoolHostHint", "Head-to-head, 45 seconds a shot");
+        public static readonly LocString OnlineShootHint = new("games.onlineShootHint", "Drag back from the cue ball and release to shoot");
+        public static readonly LocString OnlineBallInHand = new("games.onlineBallInHand", "Ball in hand: tap the table to place the cue ball");
+        public static readonly LocString OnlineBreakShot = new("games.onlineBreakShot", "Break!");
+        public static readonly LocString OnlineGroupSolids = new("games.onlineGroupSolids", "Solids");
+        public static readonly LocString OnlineGroupStripes = new("games.onlineGroupStripes", "Stripes");
+        public static readonly LocString OnlineGroupOpen = new("games.onlineGroupOpen", "Open table");
+        public static readonly LocString OnlineOnTheEight = new("games.onlineOnTheEight", "On the eight");
+        public static readonly LocString OnlineFoulScratch = new("games.onlineFoulScratch", "Foul: scratch");
+        public static readonly LocString OnlineFoulWrongBall = new("games.onlineFoulWrongBall", "Foul: wrong ball hit first");
+        public static readonly LocString OnlineFoulNoContact = new("games.onlineFoulNoContact", "Foul: nothing was hit");
+        public static readonly LocString OnlineFoulNoRail = new("games.onlineFoulNoRail", "Foul: no ball reached a rail");
+        public static readonly LocString OnlineEightWin = new("games.onlineEightWin", "{0} sinks the eight and wins!");
+        public static readonly LocString OnlineEightEarlyLoss = new("games.onlineEightEarlyLoss", "{0} wins, the eight went down too early");
+        public static readonly LocString OnlineEightScratchLoss = new("games.onlineEightScratchLoss", "{0} wins, the eight fell on a foul");
     }
 
     internal static class Time
@@ -4391,7 +4848,7 @@ internal static class L
         public static readonly LocString ShortcutNotFound = new("plugin.shortcutNotFound", "No shortcut named {0}.");
         public static readonly LocString SearchTheMarket = new("plugin.searchTheMarket", "Search the Market");
         public static readonly LocString SideButtonHint = new("plugin.sideButtonHint", "Tap to minimize · Hold to turn off");
-        public static readonly LocString MaximizeHint = new("plugin.maximizeHint", "Maximize");
+        public static readonly LocString MinimizedHint = new("plugin.minimizedHint", "Tap to open · Hold to turn off");
         public static readonly LocString LockPositionHint = new("plugin.lockPositionHint", "Lock position");
         public static readonly LocString UnlockPositionHint = new("plugin.unlockPositionHint", "Unlock position");
         public static readonly LocString ResizeHint = new("plugin.resizeHint", "Drag to resize");
@@ -5184,7 +5641,7 @@ internal static class L
         public static readonly LocString BatteryTourTitle = new("onboarding.batteryTourTitle", "Real battery");
         public static readonly LocString BatteryTourBody = new("onboarding.batteryTourBody", "And this is your device's actual battery, read straight from your computer.");
         public static readonly LocString MinimizeTitle = new("onboarding.minimizeTitle", "Tuck it away");
-        public static readonly LocString MinimizeBody = new("onboarding.minimizeBody", "This side button shrinks the phone into a corner. Click it to bring the phone back, or hold it to close.");
+        public static readonly LocString MinimizeBody = new("onboarding.minimizeBody", "This side button shrinks the phone into a small one in the corner that keeps showing the time, your music and new alerts. Tap it to bring the phone back, or hold it to turn off.");
         public static readonly LocString LockTitle = new("onboarding.lockTitle", "Lock it in place");
         public static readonly LocString LockBody = new("onboarding.lockBody", "This button locks the phone's position on your screen so it stays put while you play. That's the tour: enjoy your Aetherphone.");
         public static readonly LocString MessagesTitle = new("onboarding.messagesTitle", "Messages");
@@ -5197,6 +5654,14 @@ internal static class L
         public static readonly LocString MarketBody = new("onboarding.marketBody", "Live market board prices from across your world, powered by Universalis. Search any item, or right-click one in game to look it up.");
         public static readonly LocString MarketStatsTitle = new("onboarding.marketStatsTitle", "Know before you sell");
         public static readonly LocString MarketStatsBody = new("onboarding.marketStatsBody", "See the cheapest listings, price history and sale trends, and set an alert to get pinged when a price drops.");
+        public static readonly LocString StratsTitle = new("onboarding.stratsTitle", "Strats");
+        public static readonly LocString StratsBody = new("onboarding.stratsBody", "Raid cheatsheets from WTFDIG, right in your pocket. Pick a fight to see every mechanic with your spot marked.");
+        public static readonly LocString StratsFightsTitle = new("onboarding.stratsFightsTitle", "Pick a fight");
+        public static readonly LocString StratsFightsBody = new("onboarding.stratsFightsBody", "Savage, Ultimate, Extreme and older tiers are grouped here.");
+        public static readonly LocString StratsRoleTitle = new("onboarding.stratsRoleTitle", "Your role");
+        public static readonly LocString StratsRoleBody = new("onboarding.stratsRoleBody", "Choose your role and party. Every diagram highlights where you stand.");
+        public static readonly LocString StratsChipsTitle = new("onboarding.stratsChipsTitle", "Strats and options");
+        public static readonly LocString StratsChipsBody = new("onboarding.stratsChipsBody", "Switch between community strats and their variants. Your choice is remembered per fight.");
         public static readonly LocString VenuesTitle = new("onboarding.venuesTitle", "Venues");
         public static readonly LocString VenuesBody = new("onboarding.venuesBody", "Discover live player-run venues and events, from clubs to photo spots. One tap travels you there with Lifestream.");
         public static readonly LocString MusicTitle = new("onboarding.musicTitle", "Music");

@@ -23,7 +23,8 @@ internal sealed partial class VelvetShell
 
         public ThreadView(VelvetShell app)
             : base(app.store, app.ui, app.images, app.lodestone, app.http, app.library, app.configuration,
-                app.confirm, app.report, app.wallpaperImages, ThreadPollSeconds, TypingSendSeconds)
+                app.confirm, app.report, app.translation, app.wallpaperImages, ThreadPollSeconds,
+                TypingSendSeconds)
         {
             this.app = app;
         }
@@ -93,6 +94,7 @@ internal sealed partial class VelvetShell
                 CanInfo = false,
                 CanDelete = true,
                 CanReport = true,
+                CanTranslate = true,
                 IsStarred = _ => false,
                 MyReactionTo = store.MyReactionTo,
                 OnReply = BeginReply,
@@ -103,6 +105,7 @@ internal sealed partial class VelvetShell
                 OnInfo = _ => { },
                 OnDelete = AskDeleteMessage,
                 OnReport = OpenReportMessage,
+                OnTranslate = TranslateMessage,
                 OnReact = store.SetReaction,
             };
         }
@@ -117,6 +120,7 @@ internal sealed partial class VelvetShell
             ChatHeaderControls.DrawLock(ui, area, rowCenterY, store.EncryptingCurrent, store.VaultState,
                 () => OpenEncryptionInfo(threadId));
             ChatHeaderControls.DrawSearchToggle(ui, area, rowCenterY, searchController.Open, searchController.Toggle);
+            DrawTranslateToggle(area, rowCenterY, threadId);
             var name = app.ThreadTitle(threadId);
             var avatarRadius = 18f * scale;
             var avatarHandle = app.ThreadAvatar(threadId, avatarRadius * 2f, out var monogram, out var presence);
@@ -127,14 +131,22 @@ internal sealed partial class VelvetShell
                 MathF.Min(area.Width * 0.42f, rightLimit - leftLimit - avatarRadius * 2f - gap));
             var nameSize = Typography.Measure(name, 1f, FontWeight.SemiBold);
             nameSize.X = MathF.Min(nameSize.X, nameCap);
-            var groupWidth = avatarRadius * 2f + gap + nameSize.X;
+            var offset = app.ThreadOffset(threadId);
+            var subWidth = 0f;
+            if (offset is { } subMinutes)
+            {
+                var subText = Aetherphone.Core.Social.SocialTimeZone.Describe(subMinutes);
+                subWidth = MathF.Min(Typography.Measure(subText, 0.72f, FontWeight.Regular).X, nameCap);
+            }
+
+            var groupWidth = avatarRadius * 2f + gap + MathF.Max(nameSize.X, subWidth);
             var startX = MathF.Min(MathF.Max(area.Center.X - groupWidth * 0.5f, leftLimit), rightLimit - groupWidth);
             var avatarCenter = new Vector2(startX + avatarRadius, rowCenterY);
             AvatarView.Draw(drawList, avatarCenter, avatarRadius, Accent, monogram, 0.95f, avatarHandle, 32);
             app.PresenceDot(drawList, new Vector2(avatarCenter.X + avatarRadius - 3f * scale,
                 avatarCenter.Y + avatarRadius - 3f * scale), presence);
             var nameLeft = avatarCenter.X + avatarRadius + gap;
-            var offset = app.ThreadOffset(threadId);
+            nameCap = MathF.Max(1f, MathF.Min(nameCap, rightLimit - nameLeft));
             var textWidth = nameSize.X;
             if (offset is { } minutes)
             {

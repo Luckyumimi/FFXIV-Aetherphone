@@ -1,3 +1,4 @@
+using Aetherphone.Core.Aethernet;
 using Aetherphone.Core.Animation;
 using Aetherphone.Core.Apps;
 using Aetherphone.Core.Confirm;
@@ -42,7 +43,7 @@ internal sealed class PhoneShell : IDisposable
     private readonly ShortcutRunPill shortcutPill;
     private readonly CoinEarnPill coinPill;
     private readonly CoinEarnFloats coinFloats;
-    private readonly MinimizedPhone minimizedView;
+    private readonly MinimizedPhone minimizedPhone;
     private readonly MinimizeTransition minimize = new();
     private readonly SideButton sideButton = new();
     private readonly ResizeGrip resizeGrip = new();
@@ -55,6 +56,8 @@ internal sealed class PhoneShell : IDisposable
     private readonly ShellOverlayCoordinator overlays;
     private readonly HomeScreen home;
     private readonly SuspensionGate suspensions;
+    private readonly AethernetSession session;
+    private readonly ConfirmService confirm;
     private NotificationShake shake = new(ShakeDuration, ShakeFrequency, ShakeAmplitude);
     private bool closeRequested;
     private bool indicatorPressActive;
@@ -72,6 +75,8 @@ internal sealed class PhoneShell : IDisposable
         widgets = bundle.Widgets;
         calls = services.Calls;
         notifications = services.Notifications;
+        session = services.AethernetSession;
+        confirm = services.Confirm;
         suspensions = new SuspensionGate(services.AethernetSession);
         navigation = new NavigationStack(apps, services.Installer, suspensions);
         notifications.AppAvailability = navigation.IsAvailable;
@@ -94,7 +99,7 @@ internal sealed class PhoneShell : IDisposable
         coinFloats = new CoinEarnFloats(services.Coins);
         var controlCenter = new ControlCenter(configuration, themes, services.Playback, calls, navigation,
             notifications, router, services.Coins, services.AethernetSession);
-        minimizedView = new MinimizedPhone(notifications, configuration);
+        minimizedPhone = new MinimizedPhone(services.Playback, calls, notifications, router, navigation, configuration);
         home = new HomeScreen(apps, bundle.Widgets, services.Shortcuts, services.ShortcutRunner, configuration,
             services.Confirm);
         services.Installer.Bind(home.Layout);
@@ -113,7 +118,7 @@ internal sealed class PhoneShell : IDisposable
             configuration, services.Confirm, themes);
         painter = new ShellScreenPainter(themes, navigation, home);
         transition = new ShellTransitionRenderer(themes, navigation, home, painter);
-        morph = new MinimizeMorphView(themes, minimize, minimizedView, notifications, painter);
+        morph = new MinimizeMorphView(themes, minimize, minimizedPhone, painter, configuration);
         overlays = new ShellOverlayCoordinator(configuration, loading, navigation, controlCenter, banner, island,
             rateLimitPill, shortcutPill, coinPill, coinFloats, incomingOverlay, banOverlay, confirmOverlay,
             reportOverlay, shareSheet, conductOverlay, director, setup);
@@ -179,9 +184,33 @@ internal sealed class PhoneShell : IDisposable
 
     public float MinimizeEased => minimize.EasedProgress;
 
+    public Vector2 MinimizedSize => minimizedPhone.Measure(UiScale.Global);
+
+    public Vector2 MinimizedIdleSize => MinimizedPhone.IdleSize(UiScale.Global);
+
+    public MinimizedDrag ConsumeMinimizedDrag() => minimizedPhone.ConsumeDrag();
+
     public void ForceMaximize() => minimize.SnapFull();
 
     public void ForceMinimized() => minimize.SnapMinimized();
+
+    private void ApplyResize(float width, bool landscape)
+    {
+        if (landscape)
+        {
+            if (MathF.Abs(width - configuration.LandscapePhoneWidth) > 0.01f)
+            {
+                configuration.LandscapePhoneWidth = width;
+            }
+
+            return;
+        }
+
+        if (MathF.Abs(width - configuration.PhoneWidth) > 0.01f)
+        {
+            configuration.PhoneWidth = width;
+        }
+    }
 
     private void OnVibration(PhoneNotification notification)
     {
@@ -215,10 +244,11 @@ internal sealed class PhoneShell : IDisposable
         return navigation.Current?.Id;
     }
 
+    public void PrepareFrame(float delta) => minimize.Advance(delta);
+
     public void Draw(Rect device)
     {
         var delta = MathF.Min(ImGui.GetIO().DeltaTime, TransitionTiming.MaxFrameSeconds);
-        minimize.Advance(delta);
         if (minimize.Phase != MinimizePhase.None)
         {
             if (loading.IsActive)
@@ -236,7 +266,6 @@ internal sealed class PhoneShell : IDisposable
             return;
         }
 
-        minimizedView.IsShowing = false;
         lastVisibleDrawUtc = DateTime.UtcNow;
         device = device.Translate(new Vector2(shake.Advance(delta), 0f));
         wallpapers.StepDayNight(delta);
@@ -259,6 +288,7 @@ internal sealed class PhoneShell : IDisposable
         }
 
         banner.Advance(delta);
+        InstallSourceNotice.Poll(session, confirm);
         calls.Advance(delta);
         if (!loading.IsActive)
         {
@@ -291,10 +321,14 @@ internal sealed class PhoneShell : IDisposable
                 configuration.Save();
             }
 
-            var resized = resizeGrip.Update(chassis, PhoneBounds.ClampWidth(configuration.PhoneWidth), delta);
-            if (resized.Adjusting && MathF.Abs(resized.Width - configuration.PhoneWidth) > 0.01f)
+            var landscape = LandscapeActive;
+            var gripWidth = landscape
+                ? PhoneBounds.LandscapeWidth(configuration)
+                : PhoneBounds.ClampWidth(configuration.PhoneWidth);
+            var resized = resizeGrip.Update(chassis, gripWidth, landscape, delta);
+            if (resized.Adjusting)
             {
-                configuration.PhoneWidth = resized.Width;
+                ApplyResize(resized.Width, landscape);
             }
 
             if (resized.Committed)
@@ -376,19 +410,16 @@ internal sealed class PhoneShell : IDisposable
     private void DrawHomeIndicator(Rect screen, PhoneTheme theme)
     {
         var scale = UiScale.Current;
-        var width = 112f * scale;
-        var height = 5f * scale;
-        var center = new Vector2(screen.Center.X, screen.Max.Y - 14f * scale);
-        var min = new Vector2(center.X - width * 0.5f, center.Y - height * 0.5f);
-        var max = new Vector2(center.X + width * 0.5f, center.Y + height * 0.5f);
-        UiAnchors.Report("chrome.home", new Rect(min, max));
+        var bounds = HomeIndicator.Bounds(screen, scale);
+        var min = bounds.Min;
+        var max = bounds.Max;
+        UiAnchors.Report("chrome.home", bounds);
         var hitMin = new Vector2(min.X - 24f * scale, min.Y - 16f * scale);
         var hitMax = new Vector2(max.X + 24f * scale, max.Y + 16f * scale);
         var hovered = UiInteract.Hover(hitMin, hitMax);
         var usable = !navigation.AtHome && !navigation.IsTransitioning;
         var actionable = usable && (hovered || indicatorPressActive);
-        var color = actionable ? theme.TextStrong : Palette.WithAlpha(theme.TextStrong, 0.55f);
-        ImGui.GetWindowDrawList().AddRectFilled(min, max, ImGui.GetColorU32(color), height * 0.5f);
+        HomeIndicator.Draw(ImGui.GetWindowDrawList(), bounds, theme, actionable);
         if (!usable)
         {
             indicatorPressActive = false;
@@ -439,7 +470,7 @@ internal sealed class PhoneShell : IDisposable
         shortcutPill.Dispose();
         coinPill.Dispose();
         coinFloats.Dispose();
-        minimizedView.Dispose();
+        minimizedPhone.Dispose();
         setup.Dispose();
         for (var index = 0; index < apps.Count; index++)
         {

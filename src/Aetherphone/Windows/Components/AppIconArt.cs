@@ -91,6 +91,27 @@ internal static class AppIconArt
             case "trivia":
                 DrawTrivia(dl, center, extent, inkColor, holeColor);
                 return true;
+            case "skyfall":
+                DrawSkyfall(dl, center, extent, inkColor, holeColor);
+                return true;
+            case "invaders":
+                DrawInvaders(dl, center, extent, inkColor);
+                return true;
+            case "capman":
+                DrawCapMan(dl, center, extent, inkColor);
+                return true;
+            case "hop":
+                DrawHop(dl, center, extent, inkColor, holeColor);
+                return true;
+            case "squadron":
+                DrawSquadron(dl, center, extent, inkColor);
+                return true;
+            case "doom":
+                DrawDoom(dl, center, extent, inkColor, holeColor);
+                return true;
+            case "wordrun":
+                DrawWordRun(dl, center, extent, inkColor, holeColor);
+                return true;
             default:
                 return false;
         }
@@ -550,6 +571,160 @@ internal static class AppIconArt
         var handleWidth = halfWidth * 0.7f;
         dl.AddRectFilled(new Vector2(tip.X - handleWidth, bladeBase.Y),
             new Vector2(tip.X + handleWidth, bladeBase.Y + extent * 0.46f), ink, extent * 0.06f);
+    }
+
+    private static void DrawSkyfall(ImDrawListPtr dl, Vector2 center, float extent, uint ink, uint hole)
+    {
+        var groundY = center.Y + extent * 0.78f;
+        dl.AddRectFilled(new Vector2(center.X - extent, groundY), new Vector2(center.X + extent, groundY + extent * 0.16f),
+            ink, extent * 0.06f);
+        var blast = At(center, extent, 0.18f, 0.04f);
+        var radius = extent * 0.46f;
+        dl.AddCircleFilled(blast, radius, ink, 32);
+        dl.AddCircleFilled(blast, radius * 0.5f, hole, 24);
+        var streakStart = At(center, extent, -0.92f, -0.96f);
+        var streakEnd = new Vector2(blast.X - radius * 0.78f, blast.Y - radius * 0.62f);
+        dl.AddLine(streakStart, streakEnd, ink, extent * 0.18f);
+        dl.AddCircleFilled(streakStart, extent * 0.09f, ink, 12);
+        var towerWidth = extent * 0.2f;
+        dl.AddRectFilled(new Vector2(center.X - extent * 0.86f, groundY - extent * 0.36f),
+            new Vector2(center.X - extent * 0.86f + towerWidth, groundY), ink, extent * 0.03f);
+        dl.AddRectFilled(new Vector2(center.X + extent * 0.66f, groundY - extent * 0.5f),
+            new Vector2(center.X + extent * 0.66f + towerWidth, groundY), ink, extent * 0.03f);
+    }
+
+    private static readonly string[] InvaderRows =
+    {
+        "..#....#..", "...#..#...", "..######..", ".##.##.##.", "##########", "#.######.#", "#.#....#.#", "...##.##..",
+    };
+
+    private static void DrawInvaders(ImDrawListPtr dl, Vector2 center, float extent, uint ink)
+    {
+        var columns = InvaderRows[0].Length;
+        var unit = extent * 1.8f / columns;
+        var origin = new Vector2(center.X - columns * unit * 0.5f, center.Y - InvaderRows.Length * unit * 0.5f);
+        for (var row = 0; row < InvaderRows.Length; row++)
+        {
+            var line = InvaderRows[row];
+            for (var column = 0; column < columns; column++)
+            {
+                if (line[column] != '#')
+                {
+                    continue;
+                }
+
+                var min = new Vector2(origin.X + column * unit, origin.Y + row * unit);
+                dl.AddRectFilled(min, min + new Vector2(unit + 0.5f, unit + 0.5f), ink);
+            }
+        }
+    }
+
+    private static void DrawCapMan(ImDrawListPtr dl, Vector2 center, float extent, uint ink)
+    {
+        var muncher = At(center, extent, -0.34f, 0f);
+        var radius = extent * 0.56f;
+        const float mouth = 0.55f;
+        dl.PathClear();
+        dl.PathLineTo(muncher);
+        dl.PathArcTo(muncher, radius, mouth, MathF.PI * 2f - mouth, 28);
+        dl.PathFillConvex(ink);
+        var dotRadius = extent * 0.11f;
+        for (var dot = 0; dot < 3; dot++)
+        {
+            dl.AddCircleFilled(At(center, extent, 0.38f + dot * 0.28f, 0f), dotRadius, ink, 12);
+        }
+    }
+
+    private static void DrawHop(ImDrawListPtr dl, Vector2 center, float extent, uint ink, uint hole)
+    {
+        var laneHeight = extent * 0.18f;
+        for (var lane = 0; lane < 3; lane++)
+        {
+            var y = center.Y + extent * (0.98f - lane * 0.34f);
+            dl.AddRectFilled(new Vector2(center.X - extent, y - laneHeight * 0.5f), new Vector2(center.X + extent, y + laneHeight * 0.5f),
+                ink, laneHeight * 0.3f);
+            var dashX = center.X - extent + extent * (0.2f + lane * 0.5f);
+            dl.AddRectFilled(new Vector2(dashX, y - laneHeight * 0.16f), new Vector2(dashX + extent * 0.5f, y + laneHeight * 0.16f), hole);
+        }
+
+        var critter = At(center, extent, 0f, -0.42f);
+        var radius = extent * 0.4f;
+        dl.AddCircleFilled(critter, radius, ink, 24);
+        Span<Vector2> leftEar = stackalloc Vector2[3]
+        {
+            new(critter.X - radius * 0.85f, critter.Y - radius * 0.35f), new(critter.X - radius * 0.7f, critter.Y - radius * 1.35f),
+            new(critter.X - radius * 0.15f, critter.Y - radius * 0.9f),
+        };
+        FillConvex(dl, ink, leftEar);
+        Span<Vector2> rightEar = stackalloc Vector2[3]
+        {
+            new(critter.X + radius * 0.15f, critter.Y - radius * 0.9f), new(critter.X + radius * 0.7f, critter.Y - radius * 1.35f),
+            new(critter.X + radius * 0.85f, critter.Y - radius * 0.35f),
+        };
+        FillConvex(dl, ink, rightEar);
+        dl.AddRectFilled(new Vector2(critter.X - radius * 0.8f, critter.Y - radius * 0.25f),
+            new Vector2(critter.X + radius * 0.8f, critter.Y + radius * 0.1f), hole, radius * 0.1f);
+    }
+
+    private static readonly string[] FighterRows = { "...#...", "...#...", "..###..", ".#####.", "###.###" };
+
+    private static void DrawSquadron(ImDrawListPtr dl, Vector2 center, float extent, uint ink)
+    {
+        DrawBitmap(dl, FighterRows, At(center, extent, 0f, 0.38f), extent * 0.24f, ink);
+        DrawBitmap(dl, FighterRows, At(center, extent, -0.58f, -0.5f), extent * 0.15f, ink);
+        DrawBitmap(dl, FighterRows, At(center, extent, 0.58f, -0.5f), extent * 0.15f, ink);
+    }
+
+    private static void DrawBitmap(ImDrawListPtr dl, string[] rows, Vector2 center, float unit, uint ink)
+    {
+        var columns = rows[0].Length;
+        var origin = new Vector2(center.X - columns * unit * 0.5f, center.Y - rows.Length * unit * 0.5f);
+        for (var row = 0; row < rows.Length; row++)
+        {
+            var line = rows[row];
+            for (var column = 0; column < columns; column++)
+            {
+                if (line[column] != '#')
+                {
+                    continue;
+                }
+
+                var min = new Vector2(origin.X + column * unit, origin.Y + row * unit);
+                dl.AddRectFilled(min, min + new Vector2(unit + 0.5f, unit + 0.5f), ink);
+            }
+        }
+    }
+
+    private static void DrawDoom(ImDrawListPtr dl, Vector2 center, float extent, uint ink, uint hole)
+    {
+        dl.AddRectFilled(At(center, extent, -0.96f, -0.74f), At(center, extent, 0.96f, 0.74f), ink, extent * 0.14f);
+        dl.AddRectFilled(At(center, extent, -0.80f, -0.58f), At(center, extent, 0.80f, 0.58f), hole, extent * 0.08f);
+        dl.AddRectFilled(At(center, extent, -0.80f, 0.02f), At(center, extent, 0.80f, 0.08f), ink);
+        dl.AddRectFilled(At(center, extent, -0.10f, -0.08f), At(center, extent, 0.10f, 0.58f), ink);
+        dl.AddRectFilled(At(center, extent, -0.24f, 0.28f), At(center, extent, 0.24f, 0.58f), ink, extent * 0.04f);
+    }
+
+    private static void DrawWordRun(ImDrawListPtr dl, Vector2 center, float extent, uint ink, uint hole)
+    {
+        var tile = extent * 0.54f;
+        var gap = extent * 0.12f;
+        var rounding = tile * 0.22f;
+        for (var row = 0; row < 2; row++)
+        {
+            for (var column = 0; column < 3; column++)
+            {
+                var min = new Vector2(center.X - tile * 1.5f - gap + column * (tile + gap), center.Y - tile - gap * 0.5f + row * (tile + gap));
+                var max = min + new Vector2(tile, tile);
+                var filled = (row == 0 && column == 1) || (row == 1 && column != 1);
+                if (filled)
+                {
+                    dl.AddRectFilled(min, max, ink, rounding);
+                    continue;
+                }
+
+                dl.AddRect(min, max, ink, rounding, ImDrawFlags.None, extent * 0.1f);
+            }
+        }
     }
 
     private static void DrawTrivia(ImDrawListPtr dl, Vector2 center, float extent, uint ink, uint hole)
