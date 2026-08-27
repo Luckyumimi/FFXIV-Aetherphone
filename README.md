@@ -1,1 +1,1 @@
-国情不同，我无法理解你对于中国客户端屏蔽app的行为
+Given the different national conditions, I can't understand your decision to block apps for the Chinese client. Xi isn't going to come after you with "long-arm enforcement" just because you opened up music or MogCast software to China.Cheer up, brother. Putting my wallet address here is also a helpless move on my part as a Chinese developer.One thing I can swear on my life is that I never expected this wallet address to receive any donations.
